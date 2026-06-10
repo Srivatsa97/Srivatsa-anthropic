@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Srivatsa × Anthropic</title>
+  <meta name="description" content="Srivatsa V Jamadagni, Solutions Architect, Applied AI · Anthropic India" />
+  <style>
+    :root {
+      --bg: #f6f1e8;
+      --ink: #141414;
+      --muted: #686057;
+      --soft: #8d8378;
+      --line: #d8cdbd;
+      --card: #fffaf1;
+      --accent: #ff6b1a;
+      --accent-soft: #ffe2cf;
+      --dark: #141414;
+      --dark-muted: rgba(246,241,232,0.65);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; padding: 0;
+      color: var(--ink);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      line-height: 1.5;
+      background: radial-gradient(circle at 1px 1px, rgba(20,20,20,0.07) 1px, transparent 0) var(--bg);
+      background-size: 24px 24px;
+    }
+    a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; }
+    a:hover { color: var(--accent); }
+
+    /* ── LAYOUT ── */
+    .page { width: min(1120px, 100%); padding: 24px 20px 72px; margin: 0 auto; }
+    @media (min-width: 600px) { .page { padding: 28px 32px 72px; } }
+
+    /* ── HEADER ── */
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px; padding-bottom: 52px;
+      color: var(--muted); font-size: 14px;
+    }
+    .brand { color: var(--ink); font-weight: 700; letter-spacing: -0.02em; }
+    .nav { display: flex; gap: 14px; flex-wrap: wrap; }
+    @media (max-width: 540px) { .nav { display: none; } }
+
+    /* ── HERO ── */
+    .hero { padding: 20px 0 72px; border-bottom: 1px solid var(--line); }
+    .label { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    h1 {
+      font-size: clamp(44px, 10vw, 118px); line-height: 0.91;
+      letter-spacing: -0.075em; margin: 0; max-width: 980px;
+    }
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr;
+      gap: 28px; align-items: start; margin-top: 36px;
+    }
+    @media (min-width: 700px) { .hero-grid { grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: end; } }
+    .hero-copy {
+      font-size: clamp(18px, 3vw, 28px); line-height: 1.25;
+      letter-spacing: -0.03em; margin: 0; color: var(--muted);
+    }
+    .hero-card {
+      background: var(--card); border: 1px solid var(--line);
+      padding: 24px; box-shadow: 8px 8px 0 rgba(20,20,20,0.07);
+    }
+    .hero-card b { display: block; margin-bottom: 12px; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .hero-card p { font-size: 16px; margin: 0 0 12px; line-height: 1.5; }
+    .hero-card p:last-child { margin-bottom: 0; }
+    .stat-row { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 36px; }
+    @media (min-width: 540px) { .stat-row { grid-template-columns: repeat(3, 1fr); } }
+    .stat-box { background: var(--card); border: 1px solid var(--line); padding: 20px; }
+    .stat-box .num { font-size: clamp(32px, 6vw, 52px); font-weight: 800; letter-spacing: -0.06em; line-height: 1; color: var(--accent); display: block; margin-bottom: 6px; }
+    .stat-box .desc { font-size: 14px; color: var(--muted); }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--ink); border-radius: 999px; padding: 11px 16px; font-size: 14px; font-weight: 700; background: var(--ink); color: var(--bg); text-decoration: none; border-bottom: none; }
+    .button:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+    .button.secondary { background: transparent; color: var(--ink); }
+    .button.secondary:hover { background: transparent; border-color: var(--accent); color: var(--accent); }
+
+    /* ── SECTIONS ── */
+    section { padding: 64px 0; border-bottom: 1px solid var(--line); }
+    .section-grid { display: grid; grid-template-columns: 1fr; gap: 28px; }
+    @media (min-width: 700px) { .section-grid { grid-template-columns: 220px 1fr; gap: 60px; } }
+    h2 { margin: 0; font-size: 12px; line-height: 1.2; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+    h3 { margin: 0 0 20px; font-size: clamp(26px, 5vw, 52px); line-height: 0.98; letter-spacing: -0.055em; }
+    .lead { max-width: 820px; margin: 0 0 28px; font-size: clamp(18px, 2.8vw, 26px); line-height: 1.28; letter-spacing: -0.03em; color: var(--muted); }
+    .body-copy { max-width: 760px; color: var(--muted); font-size: 17px; margin: 0 0 16px; }
+
+    /* ── DARK BAND ── */
+    .dark-band {
+      background: var(--dark); color: var(--bg);
+      margin-left: -20px; margin-right: -20px;
+      padding-left: 20px; padding-right: 20px;
+      border-bottom: none;
+    }
+    @media (min-width: 600px) {
+      .dark-band { margin-left: -32px; margin-right: -32px; padding-left: 32px; padding-right: 32px; }
+    }
+    .dark-band h2 { color: var(--dark-muted); }
+    .dark-band .lead { color: var(--dark-muted); }
+    .dark-band h3 { color: var(--bg); }
+
+    /* ── INDIA STAT ── */
+    .india-stat { background: var(--accent); color: #fff; padding: 24px; margin-top: 28px; display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 500px) { .india-stat { grid-template-columns: auto 1fr; gap: 24px; align-items: center; } }
+    .india-stat .big { font-size: clamp(52px, 10vw, 88px); font-weight: 800; letter-spacing: -0.06em; line-height: 1; }
+    .india-stat .context { font-size: 17px; line-height: 1.45; opacity: 0.92; }
+    .india-stat .source { font-size: 11px; opacity: 0.6; margin-top: 8px; letter-spacing: 0.06em; text-transform: uppercase; }
+
+    /* ── THESIS LIST ── */
+    .thesis-list { display: grid; gap: 0; margin-top: 28px; }
+    .thesis-item { display: grid; grid-template-columns: 1fr; gap: 10px; padding: 20px 0; border-top: 1px solid rgba(246,241,232,0.18); }
+    @media (min-width: 600px) { .thesis-item { grid-template-columns: 110px 1fr; gap: 24px; } }
+    .thesis-item:first-child { border-top: none; }
+    .thesis-item .tag { color: var(--accent); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; padding-top: 4px; }
+    .thesis-item b { display: block; font-size: clamp(18px, 2.8vw, 24px); letter-spacing: -0.03em; margin-bottom: 8px; }
+    .thesis-item p { margin: 0; color: var(--dark-muted); font-size: 16px; }
+
+    /* ── WHY FIT CARDS ── */
+    .fit-cards { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 24px; }
+    @media (min-width: 600px) { .fit-cards { grid-template-columns: repeat(3, 1fr); } }
+    .fit-card { background: var(--card); border: 1px solid var(--line); padding: 20px; }
+    .fit-card .fc-num { display: inline-flex; width: 26px; height: 26px; align-items: center; justify-content: center; border: 1px solid var(--line); border-radius: 50%; font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+    .fit-card b { display: block; font-size: 17px; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .fit-card span { color: var(--muted); font-size: 14px; line-height: 1.5; }
+
+    /* ── TIMELINE (EXPERIENCE) ── */
+    .exp-list { display: grid; gap: 16px; margin-top: 24px; }
+    .role { background: var(--card); border: 1px solid var(--line); padding: 24px; }
+    .role-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+    .role-title { color: var(--ink); font-size: clamp(20px, 3vw, 26px); line-height: 1.1; letter-spacing: -0.04em; margin-bottom: 4px; font-weight: 700; }
+    .role-meta { color: var(--muted); font-size: 14px; }
+    .role-period { color: var(--muted); font-size: 13px; white-space: nowrap; }
+    .role ul { padding-left: 18px; margin: 0; color: var(--muted); }
+    .role li { margin: 10px 0; font-size: 15px; line-height: 1.55; }
+    .role li strong { color: var(--ink); }
+
+    /* ── AWARDS ── */
+    .award-row { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 28px; }
+    @media (min-width: 540px) { .award-row { grid-template-columns: repeat(3, 1fr); } }
+    .award { background: var(--card); border: 1px solid var(--line); padding: 20px; }
+    .award .co { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; display: block; }
+    .award b { display: block; font-size: 18px; letter-spacing: -0.03em; margin-bottom: 8px; }
+    .award span { color: var(--muted); font-size: 14px; }
+
+    /* ── GAME DAYS ── */
+    .gd-hero-title {
+      font-size: clamp(52px, 12vw, 140px);
+      line-height: 0.88; letter-spacing: -0.07em;
+      margin: 0 0 14px; font-weight: 800; color: var(--ink);
+    }
+    .gd-subtitle { font-size: clamp(16px, 2.5vw, 22px); color: var(--accent); font-weight: 600; letter-spacing: -0.02em; margin-bottom: 20px; }
+    .gd-lead { font-size: clamp(17px, 2.5vw, 22px); color: var(--muted); line-height: 1.35; letter-spacing: -0.025em; max-width: 780px; margin-bottom: 32px; }
+    .game-day { background: var(--card); border: 1px solid var(--line); padding: 24px; margin-bottom: 14px; }
+    .game-day .gd-label { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; display: block; }
+    .game-day .gd-title { font-size: clamp(18px, 2.8vw, 23px); letter-spacing: -0.03em; margin-bottom: 10px; display: block; font-weight: 700; }
+    .game-day .gd-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 16px; }
+    @media (min-width: 640px) { .game-day .gd-grid { grid-template-columns: repeat(3, 1fr); } }
+    .gd-col label { display: block; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--soft); margin-bottom: 6px; }
+    .gd-col p { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.55; }
+    .split { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 24px; }
+    @media (min-width: 540px) { .split { grid-template-columns: 1fr 1fr; } }
+    .panel { background: var(--card); border: 1px solid var(--line); padding: 24px; }
+    .panel h4 { margin: 0 0 12px; font-size: 20px; letter-spacing: -0.03em; }
+    .panel ul { padding-left: 16px; margin: 0; color: var(--muted); font-size: 15px; }
+    .panel li { margin: 9px 0; }
+
+    /* ── 90-DAY TIMELINE ── */
+    .day-timeline { display: grid; gap: 14px; margin-top: 28px; }
+    .day-block { background: var(--card); border: 1px solid var(--line); padding: 24px; display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 600px) { .day-block { grid-template-columns: 140px 1fr; gap: 28px; align-items: start; } }
+    .day-tag { display: flex; flex-direction: column; gap: 4px; }
+    .day-range { font-size: clamp(28px, 5vw, 44px); font-weight: 800; letter-spacing: -0.06em; color: var(--accent); line-height: 1; }
+    .day-unit { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+    .day-content b { display: block; font-size: clamp(17px, 2.5vw, 22px); letter-spacing: -0.035em; margin-bottom: 8px; }
+    .day-content p { color: var(--muted); font-size: 15px; margin: 0; line-height: 1.6; }
+
+    /* ── FINAL CTA ── */
+    .final { text-align: center; padding: 80px 0; border-bottom: none; background: linear-gradient(180deg, transparent 0%, var(--accent-soft) 100%); }
+    .final h3 { margin: 0 auto 16px; }
+    .final .lead { margin-left: auto; margin-right: auto; text-align: center; max-width: 560px; }
+
+    /* ── FOOTER ── */
+    footer { padding: 28px 0; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; color: var(--muted); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <span class="brand">Srivatsa V Jamadagni</span>
+      <nav class="nav">
+        <a href="#india">India opportunity</a>
+        <a href="#proof">Proof</a>
+        <a href="#gamedays">Game days</a>
+        <a href="#first">90 days</a>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <div class="hero">
+      <p class="label">Srivatsa x Anthropic · Solutions Architect, Applied AI · Bangalore</p>
+      <h1>Enterprise AI adoption starts with trust.</h1>
+      <div class="hero-grid">
+        <p class="hero-copy">
+          I have spent 6 years helping risk-conscious enterprises move from
+          "we are interested in this technology" to "we are running it in production."
+          Now I want to do that specifically for Claude.
+        </p>
+        <div class="hero-card">
+          <b>The short version</b>
+          <p>6 years · Enterprise pre-sales SA · Commvault + Dell Technologies</p>
+          <p>India, EMEA, US markets · $1M+ revenue influenced · 60+ workshops delivered</p>
+          <p>Daily AI tools user · Built AI-powered automation at Commvault · AWS Summit Bengaluru 2026 attendee</p>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-box">
+          <span class="num">6+</span>
+          <span class="desc">Years guiding enterprise customers from first conversation to deployment</span>
+        </div>
+        <div class="stat-box">
+          <span class="num">60+</span>
+          <span class="desc">Technical workshops and enablement sessions across India and EMEA</span>
+        </div>
+        <div class="stat-box">
+          <span class="num">$1M+</span>
+          <span class="desc">Pipeline revenue influenced through architecture design and POC execution</span>
+        </div>
+      </div>
+
+      <div class="cta-row">
+        <a class="button" href="mailto:srivatsa.jamadagni@gmail.com">Get in touch</a>
+        <a class="button secondary" href="https://linkedin.com/in/srivatsa-v-jamadagni-00538bb7" target="_blank" rel="noreferrer">LinkedIn profile</a>
+      </div>
+    </div>
+
+    <!-- INDIA OPPORTUNITY -->
+    <section id="india" class="dark-band">
+      <div class="section-grid">
+        <h2>The India Opportunity</h2>
+        <div>
+          <h3>The gap is the opportunity. I have seen it firsthand.</h3>
+          <p class="lead">
+            At AWS Summit Bengaluru 2026, I attended Anthropic's sponsored Agentic Evolution session.
+            One data point stopped me.
+          </p>
+
+          <div class="india-stat">
+            <div class="big">0.28x</div>
+            <div>
+              <div class="context">India's Claude usage index. Less than a third of expected adoption for a country of its size and digital maturity. India ranks 98th out of 116 countries measured.</div>
+              <div class="source">Source: Anthropic · Agentic Evolution session · AWS Summit Bengaluru 2026</div>
+            </div>
+          </div>
+
+          <div class="thesis-list">
+            <div class="thesis-item">
+              <div class="tag">What I saw</div>
+              <div>
+                <b>This is not a product problem</b>
+                <p>The enterprises I work with daily in BFSI, manufacturing, and large consumer platforms have leaders who are curious about AI. The barrier is not awareness. It is trust, governance, integration complexity, and the absence of a credible technical advisor who can close the gap between board-level enthusiasm and production deployment.</p>
+              </div>
+            </div>
+            <div class="thesis-item">
+              <div class="tag">What I bring</div>
+              <div>
+                <b>Six years of closing exactly that gap</b>
+                <p>I have spent my career sitting between a product that enterprises need and the organisational resistance that slows adoption. I know what it takes to move a risk-conscious Indian CIO from first conversation to signed deployment. That skill set does not change when the platform is Claude. It becomes more valuable.</p>
+              </div>
+            </div>
+            <div class="thesis-item">
+              <div class="tag">The role</div>
+              <div>
+                <b>Anthropic's first SA in India needs this background</b>
+                <p>Building Claude's enterprise presence in India from near-zero is not a technical documentation exercise. It is a trust-building exercise at scale. The right person understands Indian enterprise buying behaviour, speaks fluently from engineering to C-suite, and has a proven record of making complex technology adoption happen.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY THE FIT (SHORT) -->
+    <section id="why">
+      <div class="section-grid">
+        <h2>Why This Fits</h2>
+        <div>
+          <h3>Three things that make this a genuine match.</h3>
+
+          <div class="fit-cards">
+            <div class="fit-card">
+              <div class="fc-num">1</div>
+              <b>Enterprise adoption is my full-time job</b>
+              <span>Discovery, architecture, POC, pilot, deployment. I have run this cycle across India and EMEA for 6 years across data protection and cloud platforms. The motion maps directly to how Claude enters an enterprise.</span>
+            </div>
+            <div class="fit-card">
+              <div class="fc-num">2</div>
+              <b>I understand the Indian enterprise customer</b>
+              <span>BFSI, manufacturing, large consumer platforms. I know the approval structures, the risk posture, and the specific objections that slow AI adoption in Indian organisations. I have been navigating them weekly.</span>
+            </div>
+            <div class="fit-card">
+              <div class="fc-num">3</div>
+              <b>I already use Claude and have built with AI</b>
+              <span>Daily user of Claude and Copilot. Built internal AI tools at Commvault that are in active use. I have first-hand opinions on where AI works in enterprise workflows, and where it does not.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SELECTED PROOF -->
+    <section id="proof">
+      <div class="section-grid">
+        <h2>Selected Proof</h2>
+        <div>
+          <h3>What I have already done.</h3>
+          <p class="lead">The throughline is simple: understand the workflow, design the solution, demonstrate value, close the deal.</p>
+
+          <div class="exp-list">
+            <article class="role">
+              <div class="role-top">
+                <div>
+                  <div class="role-title">Inside Sales Engineer / Solutions Architect</div>
+                  <div class="role-meta">Commvault · Bangalore, India</div>
+                </div>
+                <div class="role-period">July 2023 to Present</div>
+              </div>
+              <ul>
+                <li>Own the full pre-sales cycle for enterprise accounts across India, APAC, and EMEA: technical discovery, solution design, POC planning, architecture reviews, and deployment advisory across AWS and Azure environments.</li>
+                <li>Influenced <strong>$1M+ in pipeline revenue</strong> through structured discovery, solution architecture, and executive presentations across India and EMEA enterprise accounts.</li>
+                <li>Delivered <strong>60+ technical workshops</strong> and partner enablement sessions across India and EMEA, generating direct pipeline and establishing Commvault as the preferred cloud data protection platform in the region.</li>
+                <li>Built AI-powered internal tools using Microsoft Copilot and internal AI platforms: an RFP response assistant and an ISE daily workflow assistant built on structured prompts, improving team efficiency by approximately <strong>40%</strong> and adopted across the presales organisation.</li>
+                <li>Designed and led the Clumio game day programme where enterprise customers executed <strong>mass AWS workload recovery scenarios</strong>, validating real RTO against stated targets and identifying gaps in backup coverage.</li>
+                <li>Championed Commvault's AI integrations including Appranix and Clumio through customer advisory sessions and executive briefings, building sales readiness for next-generation AI data protection.</li>
+                <li>Recognised with the <strong>Silver Award</strong> for exceptional customer commitment and technical leadership resulting in significant enterprise opportunity wins.</li>
+              </ul>
+            </article>
+
+            <article class="role">
+              <div class="role-top">
+                <div>
+                  <div class="role-title">Inside Product Specialist, Pre-Sales</div>
+                  <div class="role-meta">Dell Technologies · Bangalore, India</div>
+                </div>
+                <div class="role-period">Oct 2019 to July 2023</div>
+              </div>
+              <ul>
+                <li>Supported US enterprise sales teams across <strong>29 enterprise opportunities</strong> in financial services, healthcare, manufacturing, and technology sectors, contributing <strong>$100M+ in revenue</strong> and an additional $30M in pipeline.</li>
+                <li>Achieved a <strong>52% win rate</strong> across all opportunities, recognised with the Extraordinary Award and Bravo Award for exceptional performance and customer success.</li>
+                <li>Delivered technical demos, feasibility assessments, and architecture proposals across Dell's full infrastructure portfolio: PowerEdge servers, PowerStore, PowerMax and PowerVault storage, VxRail HCI clusters, and VMware vSphere, vSAN, vCenter, and NSX environments.</li>
+                <li>Built trusted technical relationships with Account and Sales teams to identify and develop greenfield and brownfield pipeline across commercial and enterprise segments in the US market.</li>
+                <li>Proposed performance optimisation and system design recommendations for complex enterprise infrastructure decisions, directly influencing procurement outcomes for Fortune 500 accounts.</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="award-row">
+            <div class="award">
+              <span class="co">Commvault · 2025</span>
+              <b>Silver Award</b>
+              <span>Exceptional customer commitment and technical leadership. Went above and beyond to architect solutions that directly resulted in enterprise opportunity wins.</span>
+            </div>
+            <div class="award">
+              <span class="co">Dell Technologies</span>
+              <b>Extraordinary Award</b>
+              <span>52% win rate across 29 enterprise opportunities, contributing $100M+ in revenue in partnership with US sales teams.</span>
+            </div>
+            <div class="award">
+              <span class="co">Dell Technologies</span>
+              <b>Bravo Award</b>
+              <span>Outstanding customer success and technical excellence in pre-sales architecture and solution delivery.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ENTERPRISE AI GAME DAYS -->
+    <section id="gamedays">
+      <div class="section-grid">
+        <h2>Inside Commvault</h2>
+        <div>
+          <div class="gd-hero-title">Enterprise<br>AI Game<br>Days</div>
+          <div class="gd-subtitle">How I am changing things internally at Commvault</div>
+          <p class="gd-lead">Enterprise AI game days are where I excel at Commvault. Pick a repeated workflow. Build a working AI-assisted version with available tools. Present it to the team. Help everyone adopt it. These are three game days I have designed and run.</p>
+
+          <div class="game-day">
+            <span class="gd-label">Game Day 01</span>
+            <span class="gd-title">RFP Response Acceleration</span>
+            <div class="gd-grid">
+              <div class="gd-col">
+                <label>The problem</label>
+                <p>RFP responses were taking 3 to 4 hours per document. High repetition across similar questions. Quality inconsistent across team members.</p>
+              </div>
+              <div class="gd-col">
+                <label>What I built</label>
+                <p>Microsoft Copilot and an internal AI bot, structured with a prompt library covering 20 common RFP categories. Customer context injection and a section-by-section output format matching our standard response structure.</p>
+              </div>
+              <div class="gd-col">
+                <label>Team adoption</label>
+                <p>Ran a live demo for the presales team. Built a shared prompt library. Response time cut by approximately 60%. Now the standard starting point across the India presales org.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="game-day">
+            <span class="gd-label">Game Day 02</span>
+            <span class="gd-title">ISE Daily Workflow Assistant</span>
+            <div class="gd-grid">
+              <div class="gd-col">
+                <label>The problem</label>
+                <p>Inside Sales Engineers were spending significant time on repetitive daily tasks: email drafting, customer follow-ups, meeting prep, and technical summary write-ups.</p>
+              </div>
+              <div class="gd-col">
+                <label>What I built</label>
+                <p>A structured prompt-based assistant using internal AI tools designed around the most common ISE daily tasks. Each prompt written specifically for the Commvault presales context.</p>
+              </div>
+              <div class="gd-col">
+                <label>Team adoption</label>
+                <p>Demonstrated each prompt live. Built a shared library accessible to the full ISE team. Measurable time savings with teammates reporting higher quality output on customer communications.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="game-day">
+            <span class="gd-label">Game Day 03</span>
+            <span class="gd-title">Clumio AWS Workload Recovery at Scale</span>
+            <div class="gd-grid">
+              <div class="gd-col">
+                <label>The problem</label>
+                <p>Enterprise customers had AWS workloads backed up with Clumio but had never tested recovery at scale. Theoretical RPO and RTO targets had never been validated under real conditions.</p>
+              </div>
+              <div class="gd-col">
+                <label>What I ran</label>
+                <p>A structured Clumio game day where participants executed mass recovery of AWS workloads hands-on across EC2, RDS, and S3 environments. Designed the session flow, guided teams through the recovery process, and facilitated the debrief.</p>
+              </div>
+              <div class="gd-col">
+                <label>Outcome</label>
+                <p>Participants validated their actual RTO against stated targets and identified specific gaps in backup coverage. Multiple accounts accelerated their Clumio deployment directly as a result.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="split">
+            <div class="panel">
+              <h4>What this is</h4>
+              <ul>
+                <li>Enterprise AI enablement from the inside.</li>
+                <li>Workflow design for customer-facing teams.</li>
+                <li>Practical adoption with measurable output improvement.</li>
+                <li>Clear framing of where the tool works and where it does not.</li>
+              </ul>
+            </div>
+            <div class="panel">
+              <h4>What this is not</h4>
+              <ul>
+                <li>Not model research or ML infrastructure work.</li>
+                <li>Not production agent deployment at scale.</li>
+                <li>Not overclaiming depth I have not built yet.</li>
+                <li>This is the foundation, not the ceiling.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 90-DAY PLAN -->
+    <section id="first">
+      <div class="section-grid">
+        <h2>90-Day Plan</h2>
+        <div>
+          <h3>What I tackle first, and when.</h3>
+          <p class="lead">Three concrete commitments built from 6 years of enterprise adoption work and firsthand knowledge of where Indian enterprises get stuck on AI.</p>
+
+          <div class="day-timeline">
+            <div class="day-block">
+              <div class="day-tag">
+                <span class="day-range">0-30</span>
+                <span class="day-unit">Days</span>
+              </div>
+              <div class="day-content">
+                <b>Enterprise AI Workflow Discovery Kit</b>
+                <p>A repeatable discovery format for identifying customer workflows worth piloting with Claude: current process, user group, data and context needed, risk level, human review points, and measurable success criteria. Built from the discovery frameworks I have run for 6 years, adapted for AI workflow evaluation with Anthropic's enterprise product. Designed to be left behind with the customer after every first meeting.</p>
+              </div>
+            </div>
+
+            <div class="day-block">
+              <div class="day-tag">
+                <span class="day-range">30-60</span>
+                <span class="day-unit">Days</span>
+              </div>
+              <div class="day-content">
+                <b>Customer-Facing AI Game Day Programme</b>
+                <p>Adapt the internal game-day format I built at Commvault into a customer-facing programme: one workflow, one working Claude-assisted example built live, one playbook left behind. Targeted at BFSI and large-enterprise segments where trust barriers are highest and a working proof of concept is the most persuasive sales motion available. Drawing directly from the Clumio AWS recovery game day I already designed and ran.</p>
+              </div>
+            </div>
+
+            <div class="day-block">
+              <div class="day-tag">
+                <span class="day-range">60-90</span>
+                <span class="day-unit">Days</span>
+              </div>
+              <div class="day-content">
+                <b>India Enterprise AI Objection Framework</b>
+                <p>A structured map of the 10 to 12 specific objections Indian enterprise customers raise about Claude deployment: data residency, model output reliability, integration with legacy systems, regulatory compliance, and internal stakeholder alignment. With recommended responses, supporting collateral, and escalation paths. Built from real customer conversations, not assumptions. A living document that the India team can build on.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="final">
+      <h3>I want to close India's AI adoption gap.<br>Starting with Claude.</h3>
+      <p class="lead">Solutions Architect, Applied AI · Anthropic · Bangalore, India</p>
+      <div class="cta-row" style="justify-content:center;">
+        <a class="button" href="mailto:srivatsa.jamadagni@gmail.com">srivatsa.jamadagni@gmail.com</a>
+        <a class="button secondary" href="https://linkedin.com/in/srivatsa-v-jamadagni-00538bb7" target="_blank" rel="noreferrer">View LinkedIn</a>
+      </div>
+    </section>
+
+    <footer>
+      <div>Srivatsa V Jamadagni · Bangalore, India · +91-9986237729</div>
+      <div>
+        <a href="mailto:srivatsa.jamadagni@gmail.com">srivatsa.jamadagni@gmail.com</a>
+        &nbsp;·&nbsp;
+        <a href="https://linkedin.com/in/srivatsa-v-jamadagni-00538bb7" target="_blank" rel="noreferrer">LinkedIn</a>
+      </div>
+    </footer>
+  </main>
+</body>
+</html>
