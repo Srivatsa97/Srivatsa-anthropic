@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Last Mile of Enterprise AI</title>
+  <meta name="description" content="Enterprises are not debating AI anymore. They are deploying it. So why does daily operational work still look the same? By Srivatsa V Jamadagni." />
+  <style>
+    :root {
+      --bg: #f6f1e8;
+      --ink: #141414;
+      --muted: #686057;
+      --soft: #8d8378;
+      --line: #d8cdbd;
+      --card: #fffaf1;
+      --accent: #ff6b1a;
+      --accent-soft: #ffe2cf;
+      --dark: #141414;
+      --dark-muted: rgba(246,241,232,0.65);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; padding: 0;
+      color: var(--ink);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      line-height: 1.5;
+      background: radial-gradient(circle at 1px 1px, rgba(20,20,20,0.07) 1px, transparent 0) var(--bg);
+      background-size: 24px 24px;
+    }
+    a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; }
+    a:hover { color: var(--accent); }
+    .page { width: min(1020px, 100%); padding: 24px 20px 72px; margin: 0 auto; }
+    @media (min-width: 600px) { .page { padding: 28px 32px 72px; } }
+
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px; padding-bottom: 48px;
+      color: var(--muted); font-size: 14px;
+    }
+    .brand { color: var(--ink); font-weight: 700; letter-spacing: -0.02em; }
+
+    .hero { padding: 16px 0 64px; border-bottom: 1px solid var(--line); }
+    .label { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+    h1 {
+      font-size: clamp(40px, 9vw, 100px); line-height: 0.92;
+      letter-spacing: -0.07em; margin: 0 0 28px; max-width: 900px;
+    }
+    .hero-copy {
+      font-size: clamp(19px, 3vw, 30px); line-height: 1.25;
+      letter-spacing: -0.03em; margin: 0 0 14px; color: var(--muted); max-width: 800px;
+    }
+    .hero-copy b { color: var(--ink); }
+
+    section { padding: 60px 0; border-bottom: 1px solid var(--line); }
+    h2 { margin: 0 0 8px; font-size: 12px; line-height: 1.2; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+    h3 { margin: 0 0 22px; font-size: clamp(26px, 5vw, 52px); line-height: 0.98; letter-spacing: -0.055em; max-width: 860px; }
+    .lead { max-width: 820px; margin: 0 0 24px; font-size: clamp(17px, 2.6vw, 24px); line-height: 1.32; letter-spacing: -0.025em; color: var(--muted); }
+    .lead b { color: var(--ink); }
+    .body-copy { max-width: 760px; color: var(--muted); font-size: 17px; margin: 0 0 16px; line-height: 1.65; }
+    .body-copy b { color: var(--ink); }
+
+    /* DARK BAND */
+    .dark-band {
+      background: var(--dark); color: var(--bg);
+      margin-left: -20px; margin-right: -20px;
+      padding-left: 20px; padding-right: 20px;
+      border-bottom: none;
+    }
+    @media (min-width: 600px) {
+      .dark-band { margin-left: -32px; margin-right: -32px; padding-left: 32px; padding-right: 32px; }
+    }
+    .dark-band h3 { color: var(--bg); }
+    .dark-band .lead { color: var(--dark-muted); }
+    .dark-band .lead b { color: var(--bg); }
+
+    /* THEN/NOW COMPARISON */
+    .then-now { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 32px; }
+    @media (min-width: 640px) { .then-now { grid-template-columns: 1fr 1fr; } }
+    .tn-col { border: 1px solid rgba(246,241,232,0.2); padding: 26px; }
+    .tn-col.now { border-color: var(--accent); }
+    .tn-col .tn-year { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 16px; display: block; font-weight: 700; color: var(--dark-muted); }
+    .tn-col.now .tn-year { color: var(--accent); }
+    .tn-col ul { padding-left: 18px; margin: 0; }
+    .tn-col li { margin: 12px 0; font-size: 16px; color: var(--dark-muted); line-height: 1.5; }
+    .tn-col.now li { color: var(--bg); }
+
+    /* GAP STATEMENT */
+    .gap-statement {
+      background: var(--accent); color: #fff; padding: 32px; margin-top: 32px;
+    }
+    .gap-statement p { font-size: clamp(19px, 3vw, 28px); line-height: 1.3; letter-spacing: -0.03em; margin: 0; font-weight: 600; }
+
+    /* WORKFLOW CARDS */
+    .workflow { background: var(--card); border: 1px solid var(--line); padding: 26px; margin-bottom: 14px; }
+    .workflow .wf-num { font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 800; margin-bottom: 10px; display: block; }
+    .workflow .wf-title { font-size: clamp(19px, 3vw, 26px); letter-spacing: -0.035em; margin-bottom: 18px; display: block; font-weight: 700; }
+    .wf-compare { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    @media (min-width: 640px) { .wf-compare { grid-template-columns: 1fr 1fr; } }
+    .wf-side label { display: block; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--soft); margin-bottom: 8px; font-weight: 700; }
+    .wf-side.after label { color: var(--accent); }
+    .wf-side p { font-size: 15px; color: var(--muted); margin: 0; line-height: 1.6; }
+    .wf-side.after { border-left: 3px solid var(--accent); padding-left: 16px; }
+    .wf-side.after p { color: var(--ink); }
+
+    /* BARRIER LIST */
+    .barrier-list { display: grid; gap: 0; margin-top: 28px; }
+    .barrier { display: grid; grid-template-columns: 1fr; gap: 8px; padding: 24px 0; border-top: 1px solid var(--line); }
+    @media (min-width: 600px) { .barrier { grid-template-columns: 64px 1fr; gap: 24px; } }
+    .barrier:first-child { border-top: none; }
+    .barrier .b-num { font-size: clamp(24px, 4vw, 36px); font-weight: 800; letter-spacing: -0.05em; color: var(--accent); line-height: 1; }
+    .barrier b { display: block; font-size: clamp(18px, 2.8vw, 23px); letter-spacing: -0.03em; margin-bottom: 8px; }
+    .barrier p { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.6; max-width: 720px; }
+
+    /* PLAYBOOK */
+    .play-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 28px; }
+    @media (min-width: 640px) { .play-grid { grid-template-columns: 1fr 1fr; } }
+    .play-card { background: var(--card); border: 1px solid var(--line); padding: 24px; }
+    .play-card .p-label { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; display: block; font-weight: 700; }
+    .play-card b { display: block; font-size: 19px; letter-spacing: -0.03em; margin-bottom: 10px; }
+    .play-card p { font-size: 15px; color: var(--muted); margin: 0; line-height: 1.6; }
+    /* HORIZON */
+    .horizon { display: grid; gap: 14px; margin-top: 28px; }
+    .horizon-row { background: var(--card); border: 1px solid var(--line); padding: 24px; display: grid; grid-template-columns: 1fr; gap: 14px; }
+    @media (min-width: 640px) { .horizon-row { grid-template-columns: 150px 1fr; gap: 28px; align-items: start; } }
+    .horizon-tag { display: flex; flex-direction: column; gap: 4px; }
+    .horizon-when { font-size: clamp(19px, 3vw, 26px); font-weight: 800; letter-spacing: -0.04em; color: var(--accent); line-height: 1.05; }
+    .horizon-unit { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+    .horizon-body b { display: block; font-size: clamp(17px, 2.5vw, 21px); letter-spacing: -0.03em; margin-bottom: 8px; }
+    .horizon-body p { color: var(--muted); font-size: 15px; margin: 0 0 10px; line-height: 1.6; }
+    .horizon-body p:last-child { margin-bottom: 0; }
+    .horizon-body p b { display: inline; font-size: inherit; color: var(--ink); margin: 0; }
+
+    /* CLOSING */
+    .closing { padding: 72px 0 56px; border-bottom: none; }
+    .pattern-box { background: var(--dark); color: var(--bg); padding: 32px; margin-top: 28px; }
+    .pattern-box .pb-label { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; display: block; font-weight: 700; }
+    .pattern-box p { font-size: clamp(17px, 2.5vw, 22px); line-height: 1.45; letter-spacing: -0.02em; margin: 0 0 16px; color: var(--dark-muted); }
+    .pattern-box p:last-child { margin-bottom: 0; }
+    .pattern-box p b { color: var(--bg); }
+
+    .author { padding: 48px 0 0; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--line); }
+    .author .a-name { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
+    .author .a-bio { font-size: 15px; color: var(--muted); max-width: 640px; line-height: 1.6; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .button {
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--ink); border-radius: 999px; padding: 11px 16px;
+      font-size: 14px; font-weight: 700; background: var(--ink);
+      color: var(--bg); text-decoration: none; border-bottom: none;
+    }
+    .button:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+    .button.secondary { background: transparent; color: var(--ink); }
+    .button.secondary:hover { background: transparent; border-color: var(--accent); color: var(--accent); }
+    footer { padding: 24px 0 0; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; color: var(--muted); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <span class="brand">Srivatsa V Jamadagni</span>
+      <span>Enterprise AI Adoption · Bangalore</span>
+    </header>
+
+    <!-- HERO -->
+    <div class="hero">
+      <p class="label">A field note on where enterprise AI actually stands in 2026</p>
+      <h1>The Last Mile of Enterprise AI</h1>
+      <p class="hero-copy">
+        Enterprises are not debating AI anymore. They have budgets, agent frameworks,
+        copilots, and training programmes. The strategy conversation is over.
+      </p>
+      <p class="hero-copy">
+        <b>So why does daily operational work still look the same as it did three years ago?</b>
+      </p>
+    </div>
+
+    <!-- THE SHIFT -->
+    <section class="dark-band">
+      <h2>The Shift</h2>
+      <h3>The objection era is over.</h3>
+      <p class="lead">
+        Three years ago, enterprise AI conversations were about whether. Today they are about how.
+        The companies I work with are not sceptics. They are <b>active builders</b>.
+      </p>
+
+      <div class="then-now">
+        <div class="tn-col">
+          <span class="tn-year">The conversation in 2023</span>
+          <ul>
+            <li>"Can we trust the outputs?"</li>
+            <li>"Will our data train someone else's model?"</li>
+            <li>"Compliance will never approve this."</li>
+            <li>"Our people are not ready."</li>
+            <li>AI as a board-level curiosity.</li>
+          </ul>
+        </div>
+        <div class="tn-col now">
+          <span class="tn-year">The conversation in 2026</span>
+          <ul>
+            <li>Building their own agents and internal frameworks.</li>
+            <li>Running structured AI training programmes for staff.</li>
+            <li>Copilots deployed across knowledge teams.</li>
+            <li>Dedicated AI budgets and governance committees.</li>
+            <li>AI as an active line item, not a curiosity.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="gap-statement">
+        <p>And yet: the IT admin checking backup SLAs this morning did it the same way they did in 2022. Dashboard. Filter. Export. Report. The strategy moved. The workflow did not.</p>
+      </div>
+    </section>
+
+    <!-- THE GAP -->
+    <section>
+      <h2>The Real Gap</h2>
+      <h3>Strategic adoption is not operational adoption.</h3>
+      <p class="lead">
+        There are two adoption curves inside every enterprise, and they are moving at completely different speeds.
+      </p>
+      <p class="body-copy">
+        <b>The strategic curve</b> is steep. Innovation teams ship agent prototypes. Leadership presents AI roadmaps.
+        Customer-facing AI features get funded and launched. This is the curve that makes the news and fills the board decks.
+      </p>
+      <p class="body-copy">
+        <b>The operational curve</b> is nearly flat. The infrastructure teams, backup admins, IT operations,
+        and platform engineers who keep the enterprise running are still working through the same consoles,
+        the same ticket queues, and the same manual investigation workflows they used before any of this existed.
+      </p>
+      <p class="body-copy">
+        This is the last mile of enterprise AI: the distance between an organisation that <b>has AI</b>
+        and an organisation whose <b>daily work has actually changed</b>. Strategy crossed the gap. Operations has not.
+        And operations is where the measurable value lives.
+      </p>
+    </section>
+
+    <!-- WHAT IT LOOKS LIKE WHEN IT CHANGES -->
+    <section>
+      <h2>What Crossing the Last Mile Looks Like</h2>
+      <h3>Five operational workflows, before and after.</h3>
+      <p class="lead">
+        These are not hypotheticals. With open standards like MCP now shipping natively in enterprise platforms,
+        every one of these is deployable today. I work in data protection, so the examples come from that world,
+        but the pattern applies to every operational domain.
+      </p>
+
+      <div class="workflow">
+        <span class="wf-num">Workflow 01</span>
+        <span class="wf-title">SLA monitoring and reporting</span>
+        <div class="wf-compare">
+          <div class="wf-side">
+            <label>The current Tuesday</label>
+            <p>Log into the console. Navigate to reports. Filter by client group, date range, job type. Export. Reformat for the weekly review. Repeat next week, identically.</p>
+          </div>
+          <div class="wf-side after">
+            <label>The agentic Tuesday</label>
+            <p>"Which SLAs did we miss this week, and what was the common cause?" One question, asked in natural language, answered with the underlying data and the pattern across failures. The admin's time shifts from gathering to deciding.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow">
+        <span class="wf-num">Workflow 02</span>
+        <span class="wf-title">Failed job triage</span>
+        <div class="wf-compare">
+          <div class="wf-side">
+            <label>The current Tuesday</label>
+            <p>Overnight jobs fail. Morning triage: open each failure, read logs, identify cause, manually raise a ticket for each one, assign, follow up. Two hours before the real work starts.</p>
+          </div>
+          <div class="wf-side after">
+            <label>The agentic Tuesday</label>
+            <p>An AI agent detects the failures overnight, analyses root cause through the platform's MCP interface, creates the ServiceNow tickets with diagnostic context attached, and presents a morning summary. Triage becomes review.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow">
+        <span class="wf-num">Workflow 03</span>
+        <span class="wf-title">Recovery readiness validation</span>
+        <div class="wf-compare">
+          <div class="wf-side">
+            <label>The current Tuesday</label>
+            <p>Recovery gets tested once or twice a year in a scheduled DR drill, if at all. Between drills, recovery posture is assumed, not known. I have run game days where teams discovered their real RTO for the first time.</p>
+          </div>
+          <div class="wf-side after">
+            <label>The agentic Tuesday</label>
+            <p>Recovery validation becomes continuous and conversational. "Can we currently meet the 4-hour RTO on the tier-1 workloads? What changed since last month?" Posture shifts from point-in-time assumption to standing knowledge.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow">
+        <span class="wf-num">Workflow 04</span>
+        <span class="wf-title">Compliance and audit evidence</span>
+        <div class="wf-compare">
+          <div class="wf-side">
+            <label>The current Tuesday</label>
+            <p>Audit season arrives. Weeks of pulling job histories, retention proofs, and access logs into spreadsheets. Evidence collection as a quarterly fire drill that displaces normal work.</p>
+          </div>
+          <div class="wf-side after">
+            <label>The agentic Tuesday</label>
+            <p>"Generate the retention compliance evidence for the finance data, last quarter, in the auditor's format." Evidence on demand, drawn live from the platform, with the audit trail of the query itself preserved.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow">
+        <span class="wf-num">Workflow 05</span>
+        <span class="wf-title">Cross-platform operational questions</span>
+        <div class="wf-compare">
+          <div class="wf-side">
+            <label>The current Tuesday</label>
+            <p>"How much are we spending on backup storage for workloads nobody has accessed in a year?" Answering this means correlating data across three consoles and a finance export. So mostly, nobody asks.</p>
+          </div>
+          <div class="wf-side after">
+            <label>The agentic Tuesday</label>
+            <p>Questions that span platforms become askable, because the AI layer connects to each system through governed interfaces. The questions nobody asked, because answering was too expensive, start getting asked. That is where optimisation actually begins.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY THE GAP PERSISTS -->
+    <section>
+      <h2>Why the Gap Persists</h2>
+      <h3>Five honest reasons the last mile is hard.</h3>
+      <p class="lead">
+        If the tools exist and the conviction exists, why has not the operational layer changed already?
+        From what I see inside enterprises every week:
+      </p>
+
+      <div class="barrier-list">
+        <div class="barrier">
+          <div class="b-num">01</div>
+          <div>
+            <b>Nobody owns operational AI adoption</b>
+            <p>Innovation teams own customer-facing AI. CIOs own AI strategy. But the question "how should the backup admin's daily workflow change" sits in nobody's job description. Unowned problems do not get solved, regardless of how solvable they are.</p>
+          </div>
+        </div>
+        <div class="barrier">
+          <div class="b-num">02</div>
+          <div>
+            <b>The write-access trust cliff</b>
+            <p>Enterprises are comfortable letting AI read: summarise, report, analyse. The cliff comes at letting AI act: initiate a recovery, modify a plan, create a ticket. Crossing it requires guardrails, audit trails, and approval workflows that most teams have not designed yet. The hesitation is rational. The absence of a designed path across it is the actual problem.</p>
+          </div>
+        </div>
+        <div class="barrier">
+          <div class="b-num">03</div>
+          <div>
+            <b>Operations teams were last in line for enablement</b>
+            <p>AI training programmes started with developers and knowledge workers. Infrastructure and operations teams, the people running the systems AI could help most, were largely an afterthought. The skills exist in the building. They are unevenly distributed in exactly the wrong direction.</p>
+          </div>
+        </div>
+        <div class="barrier">
+          <div class="b-num">04</div>
+          <div>
+            <b>The integration legwork is real</b>
+            <p>MCP servers shipping natively in enterprise platforms is a genuine unlock. But someone still has to deploy them, configure authentication, scope role-based access, and connect the AI clients. It is days of work, not months, but it is work, and it competes with a ticket queue that never empties.</p>
+          </div>
+        </div>
+        <div class="barrier">
+          <div class="b-num">05</div>
+          <div>
+            <b>Workflow redesign is harder than tool deployment</b>
+            <p>Giving a team an AI tool changes nothing by itself. The workflow has to be redesigned around it: what the agent does, where the human reviews, what gets escalated. That is design work requiring someone who understands both the operational domain and what the AI can actually do. Those people are rare. Today, that translation layer is the scarcest resource in enterprise AI.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE PLAYBOOK -->
+    <section>
+      <h2>Closing the Last Mile</h2>
+      <h3>The playbook that works.</h3>
+      <p class="lead">
+        I have run versions of this inside my own organisation and with enterprise teams.
+        None of it is complicated. All of it is deliberate.
+      </p>
+
+      <div class="play-grid">
+        <div class="play-card">
+          <span class="p-label">Step 1</span>
+          <b>Start with one workflow, not a platform</b>
+          <p>Pick the most painful repetitive workflow one team has. Failed job triage is usually the winner: high frequency, clear before-and-after, measurable hours saved. Resist the urge to start with an enterprise-wide programme.</p>
+        </div>
+        <div class="play-card">
+          <span class="p-label">Step 2</span>
+          <b>Run it as a game day, not a rollout</b>
+          <p>Get the team in a room. Connect the AI to the real system through its MCP interface, with read access. Let the admins ask their actual Tuesday questions. The moment someone gets a real answer to a real question about their own environment, the adoption conversation changes permanently.</p>
+        </div>
+        <div class="play-card">
+          <span class="p-label">Step 3</span>
+          <b>Design the trust ladder for actions</b>
+          <p>Read access first. Then act-with-approval: the agent proposes, the human confirms. Then bounded autonomy for low-risk, reversible actions with full audit trails. Make the ladder explicit, so the security review is about which rung, not whether.</p>
+        </div>
+        <div class="play-card">
+          <span class="p-label">Step 4</span>
+          <b>Measure hours, then scale sideways</b>
+          <p>Count the hours the first workflow saves per week. That number funds the next workflow. Internal results travel faster than any vendor deck: the second team adopts because the first team will not stop talking about it.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOMORROW / HORIZON -->
+    <section>
+      <h2>The Next Conversation</h2>
+      <h3>Where this goes from here.</h3>
+      <p class="lead">
+        Closing today's last mile is the work in front of us. But the same protocols solving today's friction
+        open a horizon most enterprises have not started planning for. Here is what the conversation looks like next.
+      </p>
+
+      <div class="horizon">
+        <div class="horizon-row">
+          <div class="horizon-tag">
+            <span class="horizon-when">Now to 12 months</span>
+            <span class="horizon-unit">Conversational operations</span>
+          </div>
+          <div class="horizon-body">
+            <b>From dashboards to dialogue</b>
+            <p>The near-term shift is the one already underway: operational work moves from consoles to conversation. An admin asks about SLA health, job failures, and capacity in natural language, and acts within guardrails. The win here is <b>time returned to people</b> and the death of the dashboard-hopping morning routine.</p>
+            <p>This is incremental and safe. Read access first, bounded actions next. Most enterprises can reach this within a year if they redesign workflows deliberately rather than waiting for it to happen on its own.</p>
+          </div>
+        </div>
+
+        <div class="horizon-row">
+          <div class="horizon-tag">
+            <span class="horizon-when">12 to 24 months</span>
+            <span class="horizon-unit">Autonomous operations</span>
+          </div>
+          <div class="horizon-body">
+            <b>From asking to delegating</b>
+            <p>The next shift moves from "ask the agent a question" to "give the agent a goal." Instead of an admin asking whether backups succeeded, an agent continuously monitors the resilience posture, opens incidents, attempts first-line remediation within policy, and escalates only the exceptions. The admin moves from <b>operator to supervisor of a fleet of agents.</b></p>
+            <p>The technical enabler exists today. The blocker is organisational: trust frameworks, accountability models, and the autonomy ladder maturing to the point where an enterprise is comfortable letting an agent act at 2am without a human in the loop. The enterprises that build those frameworks now will be ready; the ones still debating them will not.</p>
+          </div>
+        </div>
+
+        <div class="horizon-row">
+          <div class="horizon-tag">
+            <span class="horizon-when">24 months and beyond</span>
+            <span class="horizon-unit">Self-defending infrastructure</span>
+          </div>
+          <div class="horizon-body">
+            <b>From recovery to resilience-in-depth</b>
+            <p>The horizon I find most compelling sits at the intersection of my own domain and agentic AI. Today, cyber resilience is reactive: an attack happens, then teams recover. The next generation is <b>predictive and autonomous</b>: agents that watch for the behavioural signatures of ransomware across the data estate, isolate affected workloads before encryption spreads, validate clean recovery points automatically, and orchestrate recovery while the security team is still being paged.</p>
+            <p>Data protection stops being an insurance policy you hope you never use, and becomes an active, intelligent layer of the enterprise's defence. The backup admin's role evolves from running recovery jobs to designing the policies that govern an autonomous resilience system. That is a fundamentally more strategic seat.</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="body-copy" style="margin-top:28px;">
+        None of this requires waiting for a better model. Every capability described here is buildable on what exists today.
+        What it requires is enterprises that start designing for the horizon now, and advisors who can see both the
+        operational reality of this morning and the architecture of where it is heading. <b>The gap between those two
+        views is exactly where the value is created.</b>
+      </p>
+    </section>
+
+    <!-- CLOSING -->
+    <section class="closing">
+      <h3>The thesis.</h3>
+      <div class="pattern-box">
+        <span class="pb-label">Where enterprise AI actually is</span>
+        <p>The conviction battle is won. The budgets exist. The frameworks are being built. What remains is the hardest and least glamorous part: <b>redesigning daily operational work around what AI can now do.</b></p>
+        <p>That work does not need another strategy deck. It needs people who can sit with an operations team, understand their Tuesday, connect the AI to their real systems safely, and walk them across the trust cliff one rung at a time.</p>
+        <p><b>The last mile is not a technology problem. It is a translation problem.</b> And translation is a human skill.</p>
+      </div>
+    </section>
+
+    <!-- AUTHOR -->
+    <div class="author">
+      <div class="a-name">Srivatsa V Jamadagni</div>
+      <div class="a-bio">
+        Enterprise Pre-Sales Solutions Architect with 6+ years at Commvault and Dell Technologies,
+        working with enterprises across India, EMEA, and the US on cloud architecture, data protection,
+        and cyber resilience. I run AI game days for operational teams and work at the intersection
+        of enterprise infrastructure and AI adoption. Based in Bangalore.
+      </div>
+      <div class="cta-row">
+        <a class="button" href="index.html">Why I want to do this at Anthropic</a>
+        <a class="button secondary" href="mailto:srivatsa.jamadagni@gmail.com">Get in touch</a>
+        <a class="button secondary" href="https://linkedin.com/in/srivatsa-v-jamadagni-00538bb7" target="_blank" rel="noreferrer">LinkedIn</a>
+      </div>
+    </div>
+
+    <footer>
+      <div>© Srivatsa V Jamadagni · Bangalore, India</div>
+      <div>Written from field experience, not a survey.</div>
+    </footer>
+  </main>
+</body>
+</html>

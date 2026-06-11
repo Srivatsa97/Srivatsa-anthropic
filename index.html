@@ -180,6 +180,12 @@
     /* ── FINAL CTA ── */
     .final { text-align: center; padding: 80px 0; border-bottom: none; background: linear-gradient(180deg, transparent 0%, var(--accent-soft) 100%); }
     .final h3 { margin: 0 auto 16px; }
+    .guide-link { display: block; background: var(--dark); color: var(--bg); padding: 24px 26px; margin-top: 28px; text-decoration: none; border: none; transition: background 0.15s; }
+    .guide-link:hover { background: #000; color: var(--bg); }
+    .guide-link .gl-label { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; display: block; font-weight: 700; }
+    .guide-link .gl-title { font-size: clamp(19px, 3vw, 26px); letter-spacing: -0.03em; font-weight: 700; margin-bottom: 8px; line-height: 1.1; }
+    .guide-link .gl-sub { font-size: 15px; color: var(--dark-muted); line-height: 1.5; }
+    .guide-link .gl-arrow { color: var(--accent); font-weight: 700; }
     .final .lead { margin-left: auto; margin-right: auto; text-align: center; max-width: 560px; }
 
     /* ── FOOTER ── */
@@ -374,6 +380,12 @@
               <span>Outstanding customer success and technical excellence in pre-sales architecture and solution delivery.</span>
             </div>
           </div>
+
+          <a class="guide-link" href="last-mile.html">
+            <span class="gl-label">I wrote the field guide on this</span>
+            <div class="gl-title">Read the field guide: The Last Mile of Enterprise AI <span class="gl-arrow">&rarr;</span></div>
+            <div class="gl-sub">My field analysis of the real friction in operationalising enterprise AI, where it sits today, and where it goes next.</div>
+          </a>
         </div>
       </div>
     </section>
@@ -520,6 +532,7 @@
       <p class="lead">Solutions Architect, Applied AI · Anthropic · Bangalore, India</p>
       <div class="cta-row" style="justify-content:center;">
         <a class="button" href="mailto:srivatsa.jamadagni@gmail.com">srivatsa.jamadagni@gmail.com</a>
+        <a class="button secondary" href="last-mile.html">Read the field guide: The Last Mile of Enterprise AI</a>
         <a class="button secondary" href="https://linkedin.com/in/srivatsa-v-jamadagni-00538bb7" target="_blank" rel="noreferrer">View LinkedIn</a>
       </div>
     </section>
