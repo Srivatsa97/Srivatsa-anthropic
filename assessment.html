@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enterprise AI Readiness Assessment</title>
+  <meta name="description" content="A diagnostic that scores your enterprise AI posture across nine dimensions, from how you use AI today to where you are heading next. Designed by Srivatsa V Jamadagni." />
+  <style>
+    :root {
+      --bg: #f6f1e8;
+      --ink: #141414;
+      --muted: #686057;
+      --soft: #8d8378;
+      --line: #d8cdbd;
+      --card: #fffaf1;
+      --accent: #ff6b1a;
+      --accent-soft: #ffe2cf;
+      --dark: #141414;
+      --dark-muted: rgba(246,241,232,0.65);
+      --green: #3a7d44;
+      --amber: #c98a1a;
+      --red: #c0492f;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; padding: 0;
+      color: var(--ink);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      line-height: 1.5;
+      background: radial-gradient(circle at 1px 1px, rgba(20,20,20,0.07) 1px, transparent 0) var(--bg);
+      background-size: 24px 24px;
+    }
+    a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; }
+    a:hover { color: var(--accent); }
+    .page { width: min(880px, 100%); padding: 24px 20px 64px; margin: 0 auto; }
+    @media (min-width: 600px) { .page { padding: 28px 32px 64px; } }
+
+    header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-bottom: 44px; color: var(--muted); font-size: 14px; }
+    .brand { color: var(--ink); font-weight: 700; letter-spacing: -0.02em; }
+
+    .hero { padding: 12px 0 40px; border-bottom: 1px solid var(--line); }
+    .label { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+    h1 { font-size: clamp(36px, 8vw, 72px); line-height: 0.95; letter-spacing: -0.06em; margin: 0 0 22px; }
+    .hero-copy { font-size: clamp(17px, 2.6vw, 22px); line-height: 1.35; letter-spacing: -0.02em; margin: 0 0 12px; color: var(--muted); max-width: 680px; }
+    .hero-note { font-size: 14px; color: var(--soft); margin-top: 18px; max-width: 680px; line-height: 1.6; }
+
+    /* QUIZ */
+    .quiz { padding: 40px 0; }
+    .progress-wrap { margin-bottom: 32px; }
+    .progress-meta { display: flex; justify-content: space-between; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .progress-bar { background: var(--line); height: 4px; border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.35s ease; }
+
+    .question { display: none; }
+    .question.active { display: block; animation: fade 0.3s ease; }
+    @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .q-dim { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 12px; }
+    .q-text { font-size: clamp(22px, 4vw, 32px); line-height: 1.1; letter-spacing: -0.04em; margin-bottom: 28px; font-weight: 700; }
+    .options { display: grid; gap: 10px; }
+    .option {
+      background: var(--card); border: 1px solid var(--line); padding: 18px 20px;
+      cursor: pointer; transition: all 0.15s; font-size: 16px; color: var(--ink);
+      display: flex; align-items: center; gap: 14px; text-align: left; width: 100%;
+      font-family: inherit; line-height: 1.4;
+    }
+    .option:hover { border-color: var(--accent); transform: translateX(3px); }
+    .option .dot { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--line); flex-shrink: 0; transition: all 0.15s; }
+    .option:hover .dot { border-color: var(--accent); }
+    .option.selected { border-color: var(--accent); background: var(--accent-soft); }
+    .option.selected .dot { border-color: var(--accent); background: var(--accent); box-shadow: inset 0 0 0 3px var(--accent-soft); }
+
+    .nav-btns { display: flex; justify-content: space-between; margin-top: 28px; gap: 10px; }
+    .btn {
+      border: 1px solid var(--ink); border-radius: 999px; padding: 12px 22px;
+      font-size: 14px; font-weight: 700; background: var(--ink); color: var(--bg);
+      cursor: pointer; font-family: inherit; transition: all 0.15s;
+    }
+    .btn:hover { background: var(--accent); border-color: var(--accent); }
+    .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+    .btn.ghost { background: transparent; color: var(--ink); }
+    .btn.ghost:hover { background: transparent; border-color: var(--accent); color: var(--accent); }
+
+    /* RESULTS */
+    .results { display: none; padding: 24px 0 0; }
+    .results.show { display: block; animation: fade 0.4s ease; }
+    .score-hero { background: var(--dark); color: var(--bg); padding: 36px 28px; text-align: center; margin-bottom: 14px; }
+    .score-num { font-size: clamp(60px, 14vw, 104px); font-weight: 800; letter-spacing: -0.06em; line-height: 1; }
+    .score-band { font-size: clamp(20px, 4vw, 30px); font-weight: 700; letter-spacing: -0.03em; margin-top: 8px; }
+    .score-sub { font-size: 16px; color: var(--dark-muted); margin-top: 14px; max-width: 540px; margin-left: auto; margin-right: auto; line-height: 1.5; }
+
+    .dim-results { display: grid; gap: 12px; margin-top: 14px; }
+    .dim-card { background: var(--card); border: 1px solid var(--line); padding: 22px; }
+    .dim-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 10px; }
+    .dim-name { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+    .dim-score { font-size: 14px; font-weight: 700; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
+    .dim-score.high { background: rgba(58,125,68,0.14); color: var(--green); }
+    .dim-score.mid { background: rgba(201,138,26,0.16); color: var(--amber); }
+    .dim-score.low { background: rgba(192,73,47,0.14); color: var(--red); }
+    .dim-bar { background: var(--line); height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 14px; }
+    .dim-fill { height: 100%; border-radius: 3px; }
+    .dim-fill.high { background: var(--green); }
+    .dim-fill.mid { background: var(--amber); }
+    .dim-fill.low { background: var(--red); }
+    .dim-rec { font-size: 15px; color: var(--muted); line-height: 1.6; }
+    .dim-rec b { color: var(--ink); }
+
+    .next-steps { background: var(--accent-soft); border: 1px solid var(--accent); padding: 26px; margin-top: 20px; }
+    .next-steps h3 { margin: 0 0 14px; font-size: 22px; letter-spacing: -0.03em; }
+    .next-steps ol { margin: 0; padding-left: 20px; color: var(--ink); }
+    .next-steps li { margin: 10px 0; font-size: 15px; line-height: 1.55; }
+
+    .restart-row { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
+
+    .author { padding: 40px 0 0; margin-top: 44px; border-top: 1px solid var(--line); }
+    .author .a-name { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 6px; }
+    .author .a-bio { font-size: 14px; color: var(--muted); max-width: 620px; line-height: 1.6; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .cta-link {
+      display: inline-flex; align-items: center; border: 1px solid var(--ink);
+      border-radius: 999px; padding: 10px 16px; font-size: 14px; font-weight: 700;
+      background: var(--ink); color: var(--bg); border-bottom: none;
+    }
+    .cta-link:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+    .cta-link.secondary { background: transparent; color: var(--ink); }
+    .cta-link.secondary:hover { background: transparent; border-color: var(--accent); color: var(--accent); }
+
+    footer { padding: 28px 0 0; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; color: var(--muted); font-size: 13px; margin-top: 32px; }
+
+    @media (max-width: 560px) {
+      .page { padding: 20px 18px 44px; }
+      .nav-btns .btn { flex: 1; }
+      .cta-row .cta-link { flex: 1 1 100%; justify-content: center; }
+      .score-hero { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <span class="brand">Srivatsa V Jamadagni</span>
+      <span>Enterprise AI Adoption · Bangalore</span>
+    </header>
+
+    <!-- HERO -->
+    <div class="hero">
+      <p class="label">An interactive diagnostic · 2 minutes</p>
+      <h1>Enterprise AI Readiness Assessment</h1>
+      <p class="hero-copy">
+        Your organisation is already using AI. The real question is how deliberately, how deeply, and where to push next.
+        This diagnostic scores your AI posture across eight dimensions and shows you where the next gains are.
+      </p>
+      <p class="hero-note">
+        A note on how this works: this assessment runs on a scoring framework I designed from 6 years
+        of enterprise adoption work. It is deliberately transparent rule-based logic, not a black box.
+        Your answers never leave your browser.
+      </p>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz" id="quiz">
+      <div class="progress-wrap">
+        <div class="progress-meta">
+          <span id="progressLabel">Question 1 of 8</span>
+          <span id="dimLabel">Strategy to Operations</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+
+      <div id="questionContainer"></div>
+
+      <div class="nav-btns">
+        <button class="btn ghost" id="backBtn" onclick="prevQuestion()" disabled>Back</button>
+        <button class="btn" id="nextBtn" onclick="nextQuestion()" disabled>Next</button>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="results" id="results">
+      <div class="score-hero">
+        <div class="score-num" id="scoreNum">0</div>
+        <div class="score-band" id="scoreBand">—</div>
+        <div class="score-sub" id="scoreSub"></div>
+      </div>
+
+      <div class="dim-results" id="dimResults"></div>
+
+      <div class="next-steps">
+        <h3>Where to focus first</h3>
+        <ol id="nextSteps"></ol>
+      </div>
+
+      <div class="restart-row">
+        <button class="btn ghost" onclick="restart()">Take it again</button>
+        <a class="cta-link" href="last-mile.html" style="text-decoration:none;">Read the field guide on closing this gap</a>
+      </div>
+    </div>
+
+    <!-- AUTHOR -->
+    <div class="author">
+      <div class="a-name">Srivatsa V Jamadagni</div>
+      <div class="a-bio">
+        Enterprise Pre-Sales Solutions Architect with 6+ years at Commvault and Dell Technologies.
+        I design adoption frameworks and run AI game days for enterprise operational teams. This
+        assessment encodes the discovery logic I use in the field. Based in Bangalore.
+      </div>
+      <div class="cta-row">
+        <a class="cta-link" href="index.html">Why I do this work</a>
+        <a class="cta-link secondary" href="mailto:srivatsa.jamadagni@gmail.com">Get in touch</a>
+        <a class="cta-link secondary" href="https://linkedin.com/in/srivatsa-v-jamadagni-00538bb7" target="_blank" rel="noreferrer">LinkedIn</a>
+      </div>
+    </div>
+
+    <footer>
+      <div>© Srivatsa V Jamadagni · Bangalore, India</div>
+      <div>A transparent framework, not a black box.</div>
+    </footer>
+  </main>
+
+  <script>
+    const QUESTIONS = [
+      {
+        dim: "Strategy to Operations",
+        q: "How deeply has AI moved into daily operational work?",
+        options: [
+          { t: "Teams use AI actively, but mostly ad hoc and individually", s: 0 },
+          { t: "Several functions have standardised AI into specific workflows", s: 1 },
+          { t: "AI is embedded across most teams' daily operations", s: 2 },
+          { t: "AI is the default way work gets done; we redesign processes around it", s: 3 }
+        ]
+      },
+      {
+        dim: "Autonomy & Action",
+        q: "How much can your AI systems do on their own today?",
+        options: [
+          { t: "Assist and draft, with a human driving every step", s: 0 },
+          { t: "Read from systems and take low-risk actions with approval", s: 1 },
+          { t: "Run defined actions autonomously within guardrails", s: 2 },
+          { t: "Multi-step agents execute end-to-end workflows, humans supervise", s: 3 }
+        ]
+      },
+      {
+        dim: "Governance & Trust",
+        q: "How mature is your framework for governing what AI is allowed to do?",
+        options: [
+          { t: "We rely on team judgment and informal norms", s: 0 },
+          { t: "A documented policy exists and is mostly followed", s: 1 },
+          { t: "A governed framework with role-based access and audit trails is in active use", s: 2 },
+          { t: "Governance is automated into how agents are built and deployed", s: 3 }
+        ]
+      },
+      {
+        dim: "Tooling & Integration",
+        q: "How deeply is AI connected into your actual systems?",
+        options: [
+          { t: "Strong standalone tools, connected to systems manually", s: 0 },
+          { t: "Several systems connected through APIs and connectors", s: 1 },
+          { t: "AI reaches core systems through governed interfaces like MCP", s: 2 },
+          { t: "A unified agent layer operates across our system estate", s: 3 }
+        ]
+      },
+      {
+        dim: "Enablement",
+        q: "How well does each role know how to apply AI to their actual work?",
+        options: [
+          { t: "People are largely self-taught and figuring it out themselves", s: 0 },
+          { t: "Role-specific guidance exists for the key teams", s: 1 },
+          { t: "Every operational role has playbooks for their real tasks", s: 2 },
+          { t: "Power users coach peers; capability compounds across teams", s: 3 }
+        ]
+      },
+      {
+        dim: "Measurement & Impact",
+        q: "How well can you quantify the value AI is creating?",
+        options: [
+          { t: "We see clear value but track it informally", s: 0 },
+          { t: "We measure impact on our flagship use cases", s: 1 },
+          { t: "We baseline before deploying and measure value per workflow", s: 2 },
+          { t: "AI ROI is tracked continuously and steers our investment", s: 3 }
+        ]
+      },
+      {
+        dim: "Security Posture",
+        q: "How is security engaged with your AI deployment?",
+        options: [
+          { t: "Security reviews AI case by case as it comes up", s: 0 },
+          { t: "Security has a defined AI review process", s: 1 },
+          { t: "Security is a design partner with paved secure paths", s: 2 },
+          { t: "Secure-by-default patterns let teams ship AI fast and safely", s: 3 }
+        ]
+      },
+      {
+        dim: "Breakthroughs & Scaling",
+        q: "Have your AI initiatives produced breakthroughs that scale?",
+        options: [
+          { t: "Promising wins in pockets, not yet spread", s: 0 },
+          { t: "We deliberately replicate wins to nearby teams", s: 1 },
+          { t: "A repeatable pattern: prove, measure, scale sideways", s: 2 },
+          { t: "AI has unlocked new capabilities or business models we could not do before", s: 3 }
+        ]
+      },
+      {
+        dim: "Future Ambition",
+        q: "What is your AI agenda for the next 12 to 18 months?",
+        options: [
+          { t: "Broaden adoption of current tools across more teams", s: 0 },
+          { t: "Move from assisted workflows toward autonomous agents", s: 1 },
+          { t: "Build proprietary agents and frameworks on our own data", s: 2 },
+          { t: "Make AI a core driver of how we compete and create value", s: 3 }
+        ]
+      }
+    ];
+
+    const DIM_RECS = {
+      "Strategy to Operations": {
+        low: "<b>AI is in use, but it is individual rather than operational.</b> The next gain comes from standardising what your best people already do ad hoc into repeatable workflows the whole team runs.",
+        mid: "<b>Operational adoption is real and spreading.</b> Push it deeper: redesign your highest-volume processes around AI rather than bolting AI onto the existing process.",
+        high: "<b>AI-native operations.</b> Work is designed around what AI can do. Your frontier is autonomy and proprietary capability, not basic adoption."
+      },
+      "Autonomy & Action": {
+        low: "<b>Your AI assists but humans drive every step.</b> The next unlock is an autonomy ladder: let AI take reversible, low-risk actions with logging before expanding to approval-gated ones.",
+        mid: "<b>AI is starting to act, not just advise.</b> Widen the set of trusted autonomous actions in well-instrumented workflows, governed by role-based access.",
+        high: "<b>Agentic operations.</b> Multi-step agents run real workflows with human supervision. Focus on extending this to your highest-value processes with strong observability."
+      },
+      "Governance & Trust": {
+        low: "<b>Governance is informal, which will cap how far you can scale.</b> A documented autonomy and accountability framework unblocks everything downstream. Build it once and reuse it everywhere.",
+        mid: "<b>You have a policy and mostly follow it.</b> The next step is operational: bake governance into how agents are requested and deployed so the compliant path is the easy path.",
+        high: "<b>Governance is automated and a genuine advantage.</b> Every new use case inherits the framework, so you move faster than peers still debating accountability."
+      },
+      "Tooling & Integration": {
+        low: "<b>Strong tools, but connected to systems by hand.</b> The biggest leverage is connecting AI to your two or three highest-frequency systems through governed interfaces so it acts inside the work.",
+        mid: "<b>Real integration is creating value.</b> Consolidate toward a governed agent layer rather than accumulating more point integrations that multiply complexity.",
+        high: "<b>A unified agent layer across your estate.</b> AI participates inside your systems through controlled interfaces. Extend the pattern to the long tail of operational systems."
+      },
+      "Enablement": {
+        low: "<b>Your people are self-taught, which means uneven capability.</b> Role playbooks showing the highest-frequency tasks for each function turn scattered skill into consistent organisational capability.",
+        mid: "<b>Role-specific enablement has started.</b> Extend the playbook approach to every operational role and keep them living documents as tools evolve.",
+        high: "<b>Capability compounds across teams.</b> Power users coach peers and skill spreads organically. This is how AI-mature organisations stay ahead."
+      },
+      "Measurement & Impact": {
+        low: "<b>You see value but track it informally.</b> Baseline one workflow's cost before your next deployment and measure again after four weeks. Provable value defends budget and steers investment.",
+        mid: "<b>You measure flagship use cases.</b> Make baseline-then-measure standard for every deployment so value is provable across the board, not just the headline projects.",
+        high: "<b>Continuous, disciplined measurement.</b> You steer investment toward what works. Rare and valuable. Maintain the per-workflow rigour as you scale."
+      },
+      "Security Posture": {
+        low: "<b>Security reviews case by case, which slows momentum.</b> Move toward a defined AI review process, then paved secure paths, so the secure way becomes the fast way.",
+        mid: "<b>Security has a defined process.</b> Build standard secure patterns for authentication, access scoping, and logging so builders move fast without re-litigating security each time.",
+        high: "<b>Secure-by-default.</b> Teams ship AI fast and safely because the secure path is the default path. This is the mark of a mature AI organisation."
+      },
+      "Breakthroughs & Scaling": {
+        low: "<b>You have wins in pockets that have not yet spread.</b> Make scaling deliberate: begin each initiative with the criteria for what success looks like and how it will be replicated.",
+        mid: "<b>You replicate wins on purpose.</b> Formalise the prove-measure-scale-sideways pattern so each success funds and informs the next.",
+        high: "<b>AI has unlocked genuinely new capability.</b> You are past efficiency gains into new value creation. Protect and extend the repeatable engine that got you here."
+      },
+      "Future Ambition": {
+        low: "<b>Your near-term plan is breadth: more teams, more tools.</b> Worthwhile, but pair it with depth. The biggest returns come from moving a few high-value workflows toward autonomy, not just widening basic usage.",
+        mid: "<b>You are aiming for autonomy.</b> Strong direction. Make sure governance and measurement mature in step with autonomy so you can scale agents with confidence.",
+        high: "<b>You are building proprietary AI capability as a competitive moat.</b> This is the most ambitious posture. Your constraint will be talent and governance maturity, not technology."
+      }
+    };
+
+    let current = 0;
+    const answers = new Array(QUESTIONS.length).fill(null);
+
+    function renderQuestion() {
+      const q = QUESTIONS[current];
+      document.getElementById("progressLabel").textContent = `Question ${current + 1} of ${QUESTIONS.length}`;
+      document.getElementById("dimLabel").textContent = q.dim;
+      document.getElementById("progressFill").style.width = `${((current) / QUESTIONS.length) * 100}%`;
+
+      let html = `<div class="question active"><div class="q-dim">${q.dim}</div><div class="q-text">${q.q}</div><div class="options">`;
+      q.options.forEach((opt, i) => {
+        const sel = answers[current] === i ? " selected" : "";
+        html += `<button class="option${sel}" onclick="selectOption(${i})"><span class="dot"></span><span>${opt.t}</span></button>`;
+      });
+      html += `</div></div>`;
+      document.getElementById("questionContainer").innerHTML = html;
+
+      document.getElementById("backBtn").disabled = current === 0;
+      document.getElementById("nextBtn").disabled = answers[current] === null;
+      document.getElementById("nextBtn").textContent = current === QUESTIONS.length - 1 ? "See my results" : "Next";
+    }
+
+    function selectOption(i) {
+      answers[current] = i;
+      renderQuestion();
+    }
+
+    function nextQuestion() {
+      if (answers[current] === null) return;
+      if (current < QUESTIONS.length - 1) {
+        current++;
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function prevQuestion() {
+      if (current > 0) { current--; renderQuestion(); }
+    }
+
+    function band(score) {
+      if (score >= 2.3) return "high";
+      if (score >= 1.2) return "mid";
+      return "low";
+    }
+
+    function showResults() {
+      document.getElementById("quiz").style.display = "none";
+      const results = document.getElementById("results");
+      results.classList.add("show");
+
+      const total = answers.reduce((sum, a, i) => sum + QUESTIONS[i].options[a].s, 0);
+      const maxTotal = QUESTIONS.length * 3;
+      const pct = Math.round((total / maxTotal) * 100);
+
+      document.getElementById("scoreNum").textContent = pct;
+      let bandName, sub;
+      if (pct >= 75) {
+        bandName = "AI-Native";
+        sub = "AI is woven into how you operate and compete. You are past efficiency gains into new capability. Your frontier is proprietary advantage and deeper autonomy.";
+      } else if (pct >= 45) {
+        bandName = "Scaling with Intent";
+        sub = "You are using AI seriously and deliberately, with real wins in several areas. The opportunity now is depth and consistency: turning strong pockets into a compounding, organisation-wide capability.";
+      } else {
+        bandName = "Active but Ad Hoc";
+        sub = "AI is genuinely in use across your teams, but largely individual and unsystematic. You are getting value already. The biggest returns come from standardising what your best people do into repeatable, governed workflows.";
+      }
+      document.getElementById("scoreNum").textContent = pct;
+      document.getElementById("scoreBand").textContent = bandName;
+      document.getElementById("scoreSub").textContent = sub;
+
+      // Dimension cards, sorted weakest first
+      const dims = QUESTIONS.map((q, i) => ({
+        name: q.dim,
+        score: q.options[answers[i]].s
+      })).sort((a, b) => a.score - b.score);
+
+      let dimHtml = "";
+      dims.forEach(d => {
+        const b = band(d.score);
+        const pctDim = Math.round((d.score / 3) * 100);
+        const lbl = b === "high" ? "Strong" : b === "mid" ? "Developing" : "Priority";
+        dimHtml += `<div class="dim-card">
+          <div class="dim-head">
+            <span class="dim-name">${d.name}</span>
+            <span class="dim-score ${b}">${lbl}</span>
+          </div>
+          <div class="dim-bar"><div class="dim-fill ${b}" style="width:${pctDim}%"></div></div>
+          <div class="dim-rec">${DIM_RECS[d.name][b]}</div>
+        </div>`;
+      });
+      document.getElementById("dimResults").innerHTML = dimHtml;
+
+      // Next steps = three weakest dimensions
+      const weakest = dims.slice(0, 3);
+      let stepsHtml = "";
+      weakest.forEach(d => {
+        const b = band(d.score);
+        const rec = DIM_RECS[d.name][b].replace(/<\/?b>/g, "");
+        stepsHtml += `<li><b>${d.name}:</b> ${rec}</li>`;
+      });
+      document.getElementById("nextSteps").innerHTML = stepsHtml;
+
+      document.getElementById("progressFill").style.width = "100%";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function restart() {
+      current = 0;
+      answers.fill(null);
+      document.getElementById("results").classList.remove("show");
+      document.getElementById("quiz").style.display = "block";
+      renderQuestion();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    renderQuestion();
+  </script>
+</body>
+</html>
