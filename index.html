@@ -186,10 +186,38 @@
     .guide-link .gl-title { font-size: clamp(19px, 3vw, 26px); letter-spacing: -0.03em; font-weight: 700; margin-bottom: 8px; line-height: 1.1; }
     .guide-link .gl-sub { font-size: 15px; color: var(--dark-muted); line-height: 1.5; }
     .guide-link .gl-arrow { color: var(--accent); font-weight: 700; }
+    /* BUILT PROJECTS */
+    .built-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 24px; }
+    @media (min-width: 640px) { .built-grid { grid-template-columns: 1fr 1fr; } }
+    .built-card { display: block; background: var(--card); border: 1px solid var(--line); padding: 26px; text-decoration: none; border-bottom: 1px solid var(--line); transition: all 0.15s; }
+    .built-card:hover { border-color: var(--accent); transform: translateY(-2px); color: var(--ink); }
+    .built-card .bc-label { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; display: block; font-weight: 700; }
+    .built-card .bc-title { font-size: clamp(20px, 3vw, 26px); letter-spacing: -0.035em; font-weight: 700; margin-bottom: 10px; line-height: 1.1; }
+    .built-card .bc-desc { font-size: 15px; color: var(--muted); line-height: 1.55; margin-bottom: 14px; }
+    .built-card .bc-cta { font-size: 14px; font-weight: 700; color: var(--accent); }
     .final .lead { margin-left: auto; margin-right: auto; text-align: center; max-width: 560px; }
 
     /* ── FOOTER ── */
     footer { padding: 28px 0; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; color: var(--muted); font-size: 13px; }
+
+    /* ── MOBILE REFINEMENTS ── */
+    @media (max-width: 560px) {
+      .page { padding: 20px 18px 48px; }
+      section { padding: 40px 0; }
+      .hero { padding: 12px 0 44px; }
+      .final { padding: 52px 0; }
+      .stat-row { margin-top: 24px; }
+      .cta-row { gap: 8px; margin-top: 22px; }
+      .cta-row .button { flex: 1 1 100%; width: 100%; padding: 13px 16px; }
+      .final .cta-row .button { flex: 1 1 100%; }
+      .india-stat { padding: 20px; margin-top: 22px; }
+      .gd-hero-title { margin-bottom: 10px; }
+      .award-row { margin-top: 22px; }
+      .guide-link { padding: 20px; margin-top: 22px; }
+      .day-block { padding: 20px; }
+      h3 { margin-bottom: 16px; }
+      .lead { margin-bottom: 22px; }
+    }
   </style>
 </head>
 <body>
@@ -201,6 +229,7 @@
         <a href="#proof">Proof</a>
         <a href="#gamedays">Game days</a>
         <a href="#first">90 days</a>
+        <a href="#built">Projects</a>
       </nav>
     </header>
 
@@ -380,12 +409,6 @@
               <span>Outstanding customer success and technical excellence in pre-sales architecture and solution delivery.</span>
             </div>
           </div>
-
-          <a class="guide-link" href="last-mile.html">
-            <span class="gl-label">I wrote the field guide on this</span>
-            <div class="gl-title">Read the field guide: The Last Mile of Enterprise AI <span class="gl-arrow">&rarr;</span></div>
-            <div class="gl-sub">My field analysis of the real friction in operationalising enterprise AI, where it sits today, and where it goes next.</div>
-          </a>
         </div>
       </div>
     </section>
@@ -526,24 +549,45 @@
       </div>
     </section>
 
+    <!-- THINGS I'VE BUILT -->
+    <section id="built">
+      <div class="section-grid">
+        <h2>Things I've Built</h2>
+        <div>
+          <h3>Not just talk. Working artifacts.</h3>
+          <p class="lead">Two things I built to think through the enterprise AI adoption problem properly. Both are live, both are mine, both came from real field experience.</p>
+
+          <div class="built-grid">
+            <a class="built-card" href="last-mile.html">
+              <span class="bc-label">Field guide</span>
+              <div class="bc-title">The Last Mile of Enterprise AI</div>
+              <div class="bc-desc">My analysis of the real friction in operationalising enterprise AI, where it sits today, the eight frictions that stall it, and where it goes next.</div>
+              <span class="bc-cta">Read the field guide &rarr;</span>
+            </a>
+            <a class="built-card" href="assessment.html">
+              <span class="bc-label">Interactive diagnostic</span>
+              <div class="bc-title">Enterprise AI Readiness Assessment</div>
+              <div class="bc-desc">A nine-dimension diagnostic I designed to score an enterprise's AI posture and show where the next gains are. Transparent logic, built from field discovery work.</div>
+              <span class="bc-cta">Try the assessment &rarr;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- FINAL CTA -->
     <section class="final">
       <h3>I want to close India's AI adoption gap.<br>Starting with Claude.</h3>
       <p class="lead">Solutions Architect, Applied AI · Anthropic · Bangalore, India</p>
       <div class="cta-row" style="justify-content:center;">
-        <a class="button" href="mailto:srivatsa.jamadagni@gmail.com">srivatsa.jamadagni@gmail.com</a>
-        <a class="button secondary" href="last-mile.html">Read the field guide: The Last Mile of Enterprise AI</a>
+        <a class="button" href="mailto:srivatsa.jamadagni@gmail.com">Get in touch</a>
         <a class="button secondary" href="https://linkedin.com/in/srivatsa-v-jamadagni-00538bb7" target="_blank" rel="noreferrer">View LinkedIn</a>
       </div>
     </section>
 
     <footer>
-      <div>Srivatsa V Jamadagni · Bangalore, India · +91-9986237729</div>
-      <div>
-        <a href="mailto:srivatsa.jamadagni@gmail.com">srivatsa.jamadagni@gmail.com</a>
-        &nbsp;·&nbsp;
-        <a href="https://linkedin.com/in/srivatsa-v-jamadagni-00538bb7" target="_blank" rel="noreferrer">LinkedIn</a>
-      </div>
+      <div>Srivatsa V Jamadagni · Solutions Architect · Bangalore, India</div>
+      <div>+91-9986237729</div>
     </footer>
   </main>
 </body>
