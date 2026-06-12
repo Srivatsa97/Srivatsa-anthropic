@@ -47,7 +47,7 @@
 
     /* ── HERO ── */
     .hero { padding: 20px 0 72px; border-bottom: 1px solid var(--line); }
-    .label { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .label { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 20px; }
     h1 {
       font-size: clamp(44px, 10vw, 118px); line-height: 0.91;
       letter-spacing: -0.075em; margin: 0; max-width: 980px;
@@ -117,13 +117,22 @@
     .thesis-item .tag { color: var(--accent); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; padding-top: 4px; }
     .thesis-item b { display: block; font-size: clamp(18px, 2.8vw, 24px); letter-spacing: -0.03em; margin-bottom: 8px; }
     .thesis-item p { margin: 0; color: var(--dark-muted); font-size: 16px; }
+    /* DIGESTIBLE POINTS (dark) */
+    .point-group { margin-top: 28px; }
+    .point-group + .point-group { margin-top: 24px; }
+    .pg-tag { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 14px; display: block; }
+    .pg-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+    .pg-list li { font-size: 16px; color: var(--dark-muted); line-height: 1.5; padding-left: 22px; position: relative; }
+    .pg-list li::before { content: "—"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+    .pg-list li b { color: var(--bg); font-weight: 600; }
 
     /* ── WHY FIT CARDS ── */
     .fit-cards { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 24px; }
     @media (min-width: 600px) { .fit-cards { grid-template-columns: repeat(3, 1fr); } }
     .fit-card { background: var(--card); border: 1px solid var(--line); padding: 20px; }
-    .fit-card .fc-num { display: inline-flex; width: 26px; height: 26px; align-items: center; justify-content: center; border: 1px solid var(--line); border-radius: 50%; font-size: 12px; color: var(--muted); margin-bottom: 14px; }
-    .fit-card b { display: block; font-size: 17px; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .fit-card .fc-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .fit-card .fc-num { display: inline-flex; width: 26px; height: 26px; align-items: center; justify-content: center; border: 1px solid var(--accent); border-radius: 50%; font-size: 12px; font-weight: 700; color: var(--accent); flex-shrink: 0; }
+    .fit-card .fc-head b { font-size: 17px; letter-spacing: -0.02em; line-height: 1.15; }
     .fit-card span { color: var(--muted); font-size: 14px; line-height: 1.5; }
 
     /* ── TIMELINE (EXPERIENCE) ── */
@@ -147,9 +156,9 @@
 
     /* ── GAME DAYS ── */
     .gd-hero-title {
-      font-size: clamp(52px, 12vw, 140px);
-      line-height: 0.88; letter-spacing: -0.07em;
-      margin: 0 0 14px; font-weight: 800; color: var(--ink);
+      font-size: clamp(30px, 6vw, 56px);
+      line-height: 1.0; letter-spacing: -0.05em;
+      margin: 0 0 10px; font-weight: 800; color: var(--ink);
     }
     .gd-subtitle { font-size: clamp(16px, 2.5vw, 22px); color: var(--accent); font-weight: 600; letter-spacing: -0.02em; margin-bottom: 20px; }
     .gd-lead { font-size: clamp(17px, 2.5vw, 22px); color: var(--muted); line-height: 1.35; letter-spacing: -0.025em; max-width: 780px; margin-bottom: 32px; }
@@ -160,6 +169,19 @@
     @media (min-width: 640px) { .game-day .gd-grid { grid-template-columns: repeat(3, 1fr); } }
     .gd-col label { display: block; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--soft); margin-bottom: 6px; }
     .gd-col p { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.55; }
+    /* COMPACT GAME DAY */
+    .gd-item { background: var(--card); border: 1px solid var(--line); padding: 22px; margin-bottom: 12px; }
+    .gd-item-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+    .gd-item-num { font-size: 13px; font-weight: 800; color: var(--accent); letter-spacing: 0.06em; }
+    .gd-item-title { font-size: clamp(17px, 2.6vw, 21px); font-weight: 700; letter-spacing: -0.03em; }
+    .gd-points { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+    .gd-points li { font-size: 14px; color: var(--muted); line-height: 1.5; padding-left: 78px; position: relative; }
+    .gd-points li .gp-tag { position: absolute; left: 0; top: 0; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+    .gd-points li b { color: var(--ink); font-weight: 600; }
+    @media (max-width: 560px) {
+      .gd-points li { padding-left: 0; padding-top: 18px; }
+      .gd-points li .gp-tag { top: 0; }
+    }
     .split { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 24px; }
     @media (min-width: 540px) { .split { grid-template-columns: 1fr 1fr; } }
     .panel { background: var(--card); border: 1px solid var(--line); padding: 24px; }
@@ -169,6 +191,7 @@
 
     /* ── 90-DAY TIMELINE ── */
     .day-timeline { display: grid; gap: 14px; margin-top: 28px; }
+    .big-90 { font-size: clamp(44px, 10vw, 118px); line-height: 0.91; letter-spacing: -0.075em; color: var(--accent); margin: 0 0 24px; font-weight: 800; }
     .day-block { background: var(--card); border: 1px solid var(--line); padding: 24px; display: grid; grid-template-columns: 1fr; gap: 16px; }
     @media (min-width: 600px) { .day-block { grid-template-columns: 140px 1fr; gap: 28px; align-items: start; } }
     .day-tag { display: flex; flex-direction: column; gap: 4px; }
@@ -176,6 +199,10 @@
     .day-unit { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
     .day-content b { display: block; font-size: clamp(17px, 2.5vw, 22px); letter-spacing: -0.035em; margin-bottom: 8px; }
     .day-content p { color: var(--muted); font-size: 15px; margin: 0; line-height: 1.6; }
+    .day-content .dc-points { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+    .day-content .dc-points li { font-size: 15px; color: var(--muted); line-height: 1.5; padding-left: 20px; position: relative; }
+    .day-content .dc-points li::before { content: "—"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+    .day-content .dc-points li b { color: var(--ink); font-weight: 600; }
 
     /* ── FINAL CTA ── */
     .final { text-align: center; padding: 80px 0; border-bottom: none; background: linear-gradient(180deg, transparent 0%, var(--accent-soft) 100%); }
@@ -235,8 +262,8 @@
 
     <!-- HERO -->
     <div class="hero">
-      <p class="label">Srivatsa x Anthropic · Solutions Architect, Applied AI · Bangalore</p>
-      <h1>Enterprise AI adoption starts with trust.</h1>
+      <p class="label">Sri × Anthropic · Solutions Architect, Applied AI · Bangalore</p>
+      <h1>I build the trust that gets enterprises to adopt AI.</h1>
       <div class="hero-grid">
         <p class="hero-copy">
           I have spent 6 years helping risk-conscious enterprises move from
@@ -277,7 +304,7 @@
       <div class="section-grid">
         <h2>The India Opportunity</h2>
         <div>
-          <h3>The gap is the opportunity. I have seen it firsthand.</h3>
+          <h3>India is wide open. Here is what I would do about it.</h3>
           <p class="lead">
             At AWS Summit Bengaluru 2026, I attended Anthropic's sponsored Agentic Evolution session.
             One data point stopped me.
@@ -293,24 +320,24 @@
 
           <div class="thesis-list">
             <div class="thesis-item">
-              <div class="tag">What I saw</div>
+              <div class="tag">The opportunity</div>
               <div>
-                <b>This is not a product problem</b>
-                <p>The enterprises I work with daily in BFSI, manufacturing, and large consumer platforms have leaders who are curious about AI. The barrier is not awareness. It is trust, governance, integration complexity, and the absence of a credible technical advisor who can close the gap between board-level enthusiasm and production deployment.</p>
+                <b>I see an adoption problem, not a product problem.</b>
+                <p>The Indian enterprise leaders I work with are already curious about AI. What holds them back is not awareness. It is trust, governance, and the lack of someone who can take them from boardroom interest to production. I have spent six years being that someone for other platforms. That gap is where the 0.28x lives, and it is the gap I want to close.</p>
               </div>
             </div>
             <div class="thesis-item">
-              <div class="tag">What I bring</div>
+              <div class="tag">How I would close it</div>
               <div>
-                <b>Six years of closing exactly that gap</b>
-                <p>I have spent my career sitting between a product that enterprises need and the organisational resistance that slows adoption. I know what it takes to move a risk-conscious Indian CIO from first conversation to signed deployment. That skill set does not change when the platform is Claude. It becomes more valuable.</p>
+                <b>The same way I already win enterprise deals.</b>
+                <p>I would run the discovery to find their highest-value use case, design a Claude deployment that fits their risk posture, sit across the table from their CISO and answer the hard security questions myself, and walk a risk-conscious Indian CIO from first conversation to signed production. This is my daily motion. It does not change because the platform is Claude. It gets sharper.</p>
               </div>
             </div>
             <div class="thesis-item">
-              <div class="tag">The role</div>
+              <div class="tag">Why it should be me</div>
               <div>
-                <b>Anthropic's first SA in India needs this background</b>
-                <p>Building Claude's enterprise presence in India from near-zero is not a technical documentation exercise. It is a trust-building exercise at scale. The right person understands Indian enterprise buying behaviour, speaks fluently from engineering to C-suite, and has a proven record of making complex technology adoption happen.</p>
+                <b>I already know this market from the inside.</b>
+                <p>I understand how Indian enterprises actually buy, I move fluently between an engineering team and a CXO in the same meeting, and I have personally handled the compliance and security objections that stall every deal here. I am not learning this market on the job. I have spent six years making complex technology adoption happen in it.</p>
               </div>
             </div>
           </div>
@@ -327,18 +354,15 @@
 
           <div class="fit-cards">
             <div class="fit-card">
-              <div class="fc-num">1</div>
-              <b>Enterprise adoption is my full-time job</b>
+              <div class="fc-head"><span class="fc-num">1</span><b>Enterprise adoption is my full-time job</b></div>
               <span>Discovery, architecture, POC, pilot, deployment. I have run this cycle across India and EMEA for 6 years across data protection and cloud platforms. The motion maps directly to how Claude enters an enterprise.</span>
             </div>
             <div class="fit-card">
-              <div class="fc-num">2</div>
-              <b>I understand the Indian enterprise customer</b>
+              <div class="fc-head"><span class="fc-num">2</span><b>I understand the Indian enterprise customer</b></div>
               <span>BFSI, manufacturing, large consumer platforms. I know the approval structures, the risk posture, and the specific objections that slow AI adoption in Indian organisations. I have been navigating them weekly.</span>
             </div>
             <div class="fit-card">
-              <div class="fc-num">3</div>
-              <b>I already use Claude and have built with AI</b>
+              <div class="fc-head"><span class="fc-num">3</span><b>I already use Claude and have built with AI</b></div>
               <span>Daily user of Claude and Copilot. Built internal AI tools at Commvault that are in active use. I have first-hand opinions on where AI works in enterprise workflows, and where it does not.</span>
             </div>
           </div>
@@ -413,70 +437,48 @@
       </div>
     </section>
 
-    <!-- ENTERPRISE AI GAME DAYS -->
+    <!-- GAME DAYS -->
     <section id="gamedays">
       <div class="section-grid">
         <h2>Inside Commvault</h2>
         <div>
-          <div class="gd-hero-title">Enterprise<br>AI Game<br>Days</div>
-          <div class="gd-subtitle">How I am changing things internally at Commvault</div>
-          <p class="gd-lead">Enterprise AI game days are where I excel at Commvault. Pick a repeated workflow. Build a working AI-assisted version with available tools. Present it to the team. Help everyone adopt it. These are three game days I have designed and run.</p>
+          <div class="gd-hero-title">My contribution: game days at Commvault</div>
+          <p class="gd-lead">Pick a repeated workflow. Build a working AI-assisted version with available tools. Present it to the team. Help everyone adopt it. Three I have designed and run:</p>
 
-          <div class="game-day">
-            <span class="gd-label">Game Day 01</span>
-            <span class="gd-title">RFP Response Acceleration</span>
-            <div class="gd-grid">
-              <div class="gd-col">
-                <label>The problem</label>
-                <p>RFP responses were taking 3 to 4 hours per document. High repetition across similar questions. Quality inconsistent across team members.</p>
-              </div>
-              <div class="gd-col">
-                <label>What I built</label>
-                <p>Microsoft Copilot and an internal AI bot, structured with a prompt library covering 20 common RFP categories. Customer context injection and a section-by-section output format matching our standard response structure.</p>
-              </div>
-              <div class="gd-col">
-                <label>Team adoption</label>
-                <p>Ran a live demo for the presales team. Built a shared prompt library. Response time cut by approximately 60%. Now the standard starting point across the India presales org.</p>
-              </div>
+          <div class="gd-item">
+            <div class="gd-item-head">
+              <span class="gd-item-num">01</span>
+              <span class="gd-item-title">RFP Response Acceleration</span>
             </div>
+            <ul class="gd-points">
+              <li><span class="gp-tag">Problem</span>RFP responses took 3 to 4 hours each, highly repetitive, inconsistent quality across the team.</li>
+              <li><span class="gp-tag">Built</span>Microsoft Copilot plus an internal AI bot, with a prompt library covering 20 common RFP categories and our standard output structure.</li>
+              <li><span class="gp-tag">Result</span><b>Response time cut ~60%.</b> Now the standard starting point across the India presales org.</li>
+            </ul>
           </div>
 
-          <div class="game-day">
-            <span class="gd-label">Game Day 02</span>
-            <span class="gd-title">ISE Daily Workflow Assistant</span>
-            <div class="gd-grid">
-              <div class="gd-col">
-                <label>The problem</label>
-                <p>Inside Sales Engineers were spending significant time on repetitive daily tasks: email drafting, customer follow-ups, meeting prep, and technical summary write-ups.</p>
-              </div>
-              <div class="gd-col">
-                <label>What I built</label>
-                <p>A structured prompt-based assistant using internal AI tools designed around the most common ISE daily tasks. Each prompt written specifically for the Commvault presales context.</p>
-              </div>
-              <div class="gd-col">
-                <label>Team adoption</label>
-                <p>Demonstrated each prompt live. Built a shared library accessible to the full ISE team. Measurable time savings with teammates reporting higher quality output on customer communications.</p>
-              </div>
+          <div class="gd-item">
+            <div class="gd-item-head">
+              <span class="gd-item-num">02</span>
+              <span class="gd-item-title">ISE Daily Workflow Assistant</span>
             </div>
+            <ul class="gd-points">
+              <li><span class="gp-tag">Problem</span>Inside Sales Engineers losing hours to repetitive daily tasks: email drafting, follow-ups, meeting prep, technical summaries.</li>
+              <li><span class="gp-tag">Built</span>A prompt-based assistant on internal AI tools, each prompt written for the actual Commvault presales context.</li>
+              <li><span class="gp-tag">Result</span><b>Measurable time savings</b> and higher-quality customer communications, with a shared library for the whole ISE team.</li>
+            </ul>
           </div>
 
-          <div class="game-day">
-            <span class="gd-label">Game Day 03</span>
-            <span class="gd-title">Clumio AWS Workload Recovery at Scale</span>
-            <div class="gd-grid">
-              <div class="gd-col">
-                <label>The problem</label>
-                <p>Enterprise customers had AWS workloads backed up with Clumio but had never tested recovery at scale. Theoretical RPO and RTO targets had never been validated under real conditions.</p>
-              </div>
-              <div class="gd-col">
-                <label>What I ran</label>
-                <p>A structured Clumio game day where participants executed mass recovery of AWS workloads hands-on across EC2, RDS, and S3 environments. Designed the session flow, guided teams through the recovery process, and facilitated the debrief.</p>
-              </div>
-              <div class="gd-col">
-                <label>Outcome</label>
-                <p>Participants validated their actual RTO against stated targets and identified specific gaps in backup coverage. Multiple accounts accelerated their Clumio deployment directly as a result.</p>
-              </div>
+          <div class="gd-item">
+            <div class="gd-item-head">
+              <span class="gd-item-num">03</span>
+              <span class="gd-item-title">Clumio AWS Workload Recovery at Scale</span>
             </div>
+            <ul class="gd-points">
+              <li><span class="gp-tag">Problem</span>Enterprise customers had AWS workloads backed up but had never tested recovery at scale. RPO and RTO targets unvalidated.</li>
+              <li><span class="gp-tag">Ran</span>A hands-on game day: participants executed mass recovery across EC2, RDS, and S3. I designed the flow, guided the teams, ran the debrief.</li>
+              <li><span class="gp-tag">Result</span>Participants <b>validated real RTO against targets</b> and found backup-coverage gaps. Multiple accounts accelerated their Clumio deployment as a result.</li>
+            </ul>
           </div>
 
           <div class="split">
@@ -486,7 +488,6 @@
                 <li>Enterprise AI enablement from the inside.</li>
                 <li>Workflow design for customer-facing teams.</li>
                 <li>Practical adoption with measurable output improvement.</li>
-                <li>Clear framing of where the tool works and where it does not.</li>
               </ul>
             </div>
             <div class="panel">
@@ -494,8 +495,7 @@
               <ul>
                 <li>Not model research or ML infrastructure work.</li>
                 <li>Not production agent deployment at scale.</li>
-                <li>Not overclaiming depth I have not built yet.</li>
-                <li>This is the foundation, not the ceiling.</li>
+                <li>The foundation, not the ceiling.</li>
               </ul>
             </div>
           </div>
@@ -508,41 +508,44 @@
       <div class="section-grid">
         <h2>90-Day Plan</h2>
         <div>
-          <h3>What I tackle first, and when.</h3>
-          <p class="lead">Three concrete commitments built from 6 years of enterprise adoption work and firsthand knowledge of where Indian enterprises get stuck on AI.</p>
+          <div class="big-90">My First 90 Days at Anthropic</div>
+          <p class="lead">Three initiatives I would begin from day one, built from 6 years of enterprise adoption work and firsthand knowledge of where Indian enterprises get stuck on AI.</p>
 
           <div class="day-timeline">
-            <div class="day-block">
-              <div class="day-tag">
-                <span class="day-range">0-30</span>
-                <span class="day-unit">Days</span>
+            <div class="gd-item">
+              <div class="gd-item-head">
+                <span class="gd-item-num">01</span>
+                <span class="gd-item-title">Enterprise AI Workflow Discovery Kit</span>
               </div>
-              <div class="day-content">
-                <b>Enterprise AI Workflow Discovery Kit</b>
-                <p>A repeatable discovery format for identifying customer workflows worth piloting with Claude: current process, user group, data and context needed, risk level, human review points, and measurable success criteria. Built from the discovery frameworks I have run for 6 years, adapted for AI workflow evaluation with Anthropic's enterprise product. Designed to be left behind with the customer after every first meeting.</p>
-              </div>
+              <ul class="gd-points">
+                <li><span class="gp-tag">What</span>A repeatable discovery format for spotting which customer workflows are worth piloting with Claude, covering process, data, risk level, and success criteria.</li>
+                <li><span class="gp-tag">Why</span>Every enterprise conversation needs a structured way to find the right first use case. This gives the customer one to keep.</li>
+                <li><span class="gp-tag">From</span><b>Built from the discovery frameworks I have run for 6 years</b>, adapted for Claude.</li>
+              </ul>
             </div>
 
-            <div class="day-block">
-              <div class="day-tag">
-                <span class="day-range">30-60</span>
-                <span class="day-unit">Days</span>
+            <div class="gd-item">
+              <div class="gd-item-head">
+                <span class="gd-item-num">02</span>
+                <span class="gd-item-title">Customer-Facing AI Game Day Programme</span>
               </div>
-              <div class="day-content">
-                <b>Customer-Facing AI Game Day Programme</b>
-                <p>Adapt the internal game-day format I built at Commvault into a customer-facing programme: one workflow, one working Claude-assisted example built live, one playbook left behind. Targeted at BFSI and large-enterprise segments where trust barriers are highest and a working proof of concept is the most persuasive sales motion available. Drawing directly from the Clumio AWS recovery game day I already designed and ran.</p>
-              </div>
+              <ul class="gd-points">
+                <li><span class="gp-tag">What</span>One workflow, one working Claude-assisted example built live with the customer, one playbook left behind.</li>
+                <li><span class="gp-tag">Why</span>Targeted at BFSI and large enterprises where trust barriers are highest and a working proof beats any slide.</li>
+                <li><span class="gp-tag">From</span>Drawing directly from the <b>Clumio AWS recovery game day</b> I already designed and ran.</li>
+              </ul>
             </div>
 
-            <div class="day-block">
-              <div class="day-tag">
-                <span class="day-range">60-90</span>
-                <span class="day-unit">Days</span>
+            <div class="gd-item">
+              <div class="gd-item-head">
+                <span class="gd-item-num">03</span>
+                <span class="gd-item-title">India Enterprise AI Objection Framework</span>
               </div>
-              <div class="day-content">
-                <b>India Enterprise AI Objection Framework</b>
-                <p>A structured map of the 10 to 12 specific objections Indian enterprise customers raise about Claude deployment: data residency, model output reliability, integration with legacy systems, regulatory compliance, and internal stakeholder alignment. With recommended responses, supporting collateral, and escalation paths. Built from real customer conversations, not assumptions. A living document that the India team can build on.</p>
-              </div>
+              <ul class="gd-points">
+                <li><span class="gp-tag">What</span>A structured map of the 10 to 12 objections Indian enterprises raise about Claude, with responses, collateral, and escalation paths.</li>
+                <li><span class="gp-tag">Why</span>Data residency, output reliability, legacy integration, compliance. The same objections stall every deal here.</li>
+                <li><span class="gp-tag">From</span>Built from real customer conversations. <b>A living document the India team can build on.</b></li>
+              </ul>
             </div>
           </div>
         </div>
